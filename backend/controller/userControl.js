@@ -58,11 +58,31 @@ const deleteAUser = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
+const updateAUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updaUser = await user.findByIdAndUpdate(
+      id,
+      {
+        firstname: req?.body?.firstname,
+        lastname: req?.body?.lastname,
+        email: req?.body?.email,
+        mobile: req?.body?.mobile,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updaUser);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 module.exports = {
   createUser,
   loginControl,
   getAllUsers,
   getAUser,
   deleteAUser,
+  updateAUser,
 };
