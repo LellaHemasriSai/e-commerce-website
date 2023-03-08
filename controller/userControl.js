@@ -32,4 +32,37 @@ const loginControl = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser, loginControl };
+const getAllUsers = asyncHandler(async (req, res) => {
+  try {
+    const getUsers = await user.find();
+    res.json(getUsers);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const getAUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const getaUser = await user.findById(id);
+    res.json(getaUser);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const deleteAUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const delaUser = await user.findByIdAndDelete(id);
+    res.json(delaUser);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+module.exports = {
+  createUser,
+  loginControl,
+  getAllUsers,
+  getAUser,
+  deleteAUser,
+};
