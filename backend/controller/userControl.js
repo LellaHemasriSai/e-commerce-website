@@ -1,6 +1,7 @@
 const user = require("../schemas/userSchema");
 const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
+const { validateMongodbId } = require("../utils/validateMongodbId");
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
@@ -42,6 +43,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 });
 const getAUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongodbId(id);
   try {
     const getaUser = await user.findById(id);
     res.json(getaUser);
@@ -51,6 +53,7 @@ const getAUser = asyncHandler(async (req, res) => {
 });
 const deleteAUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongodbId(id);
   try {
     const delaUser = await user.findByIdAndDelete(id);
     res.json(delaUser);
@@ -61,6 +64,7 @@ const deleteAUser = asyncHandler(async (req, res) => {
 const updateAUser = asyncHandler(async (req, res) => {
   // console.log(req.user1);
   const { _id } = req.user1;
+  validateMongodbId(_id);
   try {
     const updaUser = await user.findByIdAndUpdate(
       _id,
