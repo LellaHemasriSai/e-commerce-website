@@ -24,4 +24,15 @@ const authentication = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { authentication };
+const isAdmin = asyncHandler(async (req, res, next) => {
+  // console.log(req.user1);
+  const { email } = req.user1;
+  const adminUser = await user.findOne({ email });
+  if (adminUser.role !== "admin") {
+    throw new Error("You are not an admin");
+  } else {
+    next();
+  }
+});
+
+module.exports = { authentication, isAdmin };

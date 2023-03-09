@@ -59,10 +59,11 @@ const deleteAUser = asyncHandler(async (req, res) => {
   }
 });
 const updateAUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  // console.log(req.user1);
+  const { _id } = req.user1;
   try {
     const updaUser = await user.findByIdAndUpdate(
-      id,
+      _id,
       {
         firstname: req?.body?.firstname,
         lastname: req?.body?.lastname,
