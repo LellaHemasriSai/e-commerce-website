@@ -2,6 +2,8 @@ const user = require("../schemas/userSchema");
 const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
 const { validateMongodbId } = require("../utils/validateMongodbId");
+const { generaterefreshToken } = require("../config/refreshtoken");
+const jwt = require("jsonwebtoken");
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
@@ -20,6 +22,20 @@ const loginControl = asyncHandler(async (req, res) => {
   // console.log(email, password);
   const findUser = await user.findOne({ email });
   if (findUser && (await findUser.isPasswordMatched(password))) {
+    const refreshToken = await generaterefreshToken(findUser?._id);
+    const updateuser = await user.findOneAndUpdate(
+      findUser.id,
+      {
+        refreshToken: refreshToken,
+      },
+      {
+        new: true,
+      }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 72 * 60 * 60 * 100,
+    });
     res.json({
       _id: findUser?._id,
       firstname: findUser?.firstname,
@@ -83,6 +99,31 @@ const updateAUser = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+const handleRefreshToken = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  // console.log(cookie);
+  if (!cookie?.refreshToken) {
+    throw new Error("No refresh Token");
+  }
+  const refreshToken = cookie.refreshToken;
+  // console.log(refreshToken);
+  const user1 = await user.findOne({
+    refreshToken,
+  });
+  if (!user1) {
+    throw new Error("No refresh Token");
+  }
+  // res.json(user1);
+  jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+    if (err || user1.id !== decoded.id) {
+      throw new Error("there is something wrong with the refresh token");
+    }
+    const accessToken = generateToken(user1?._id);
+    res.json({ accessToken });
+  });
+});
+
 module.exports = {
   createUser,
   loginControl,
@@ -90,4 +131,5 @@ module.exports = {
   getAUser,
   deleteAUser,
   updateAUser,
+  handleRefreshToken,
 };

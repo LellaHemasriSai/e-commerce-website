@@ -7,6 +7,7 @@ const app = express();
 const dbConnect = require("./config/dbConnector");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const authenticationRuter = require("./routes/authenticationRoute");
+const cookieParser = require("cookie-parser");
 
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 4000;
@@ -19,7 +20,7 @@ dbConnect();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(cookieParser());
 app.use("/api/user", authenticationRuter);
 
 app.use(notFound);
