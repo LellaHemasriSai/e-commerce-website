@@ -124,6 +124,34 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
   });
 });
 
+const logout = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  // console.log(cookie);
+  if (!cookie?.refreshToken) {
+    throw new Error("No refresh Token");
+  }
+  const refreshToken = cookie.refreshToken;
+  // console.log(refreshToken);
+  const user1 = await user.findOne({
+    refreshToken,
+  });
+  if (!user1) {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+    });
+    return res.sendStatus(204);
+  }
+  await user.findOneAndUpdate("refreshToken", {
+    refreshToken: "",
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+  });
+  res.sendStatus(204);
+});
+
 module.exports = {
   createUser,
   loginControl,
@@ -132,4 +160,5 @@ module.exports = {
   deleteAUser,
   updateAUser,
   handleRefreshToken,
+  logout,
 };
