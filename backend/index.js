@@ -9,6 +9,7 @@ const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const authenticationRouter = require("./routes/authenticationRoute");
 const productRouter = require("./routes/productRoute");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 4000;
@@ -19,6 +20,7 @@ dbConnect();
 //   res.send("Hello from server side");
 // });
 
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
