@@ -46,13 +46,13 @@ const Footer = () => {
                 </address>
                 <a
                   href="tel:+91 1234567890"
-                  className="mt-4 d-block mb-2 text-white"
+                  className="mt-3 d-block mb-1 text-white"
                 >
                   +91 1234567890
                 </a>
                 <a
                   href="mailto:cs20b020@iittp.ac.in"
-                  className="mt-4 d-block mb-2 text-white"
+                  className="mt-2 d-block mb-0 text-white"
                 >
                   cs20b020@iittp.ac.in
                 </a>

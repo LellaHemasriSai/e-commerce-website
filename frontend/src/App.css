@@ -16,7 +16,7 @@ a{
 
 .header-top{
   background-color: #3d5a80;
-  border-bottom: 0.5px solid #899FBC;
+  border-bottom: 0.5px solid rgba(137, 159, 188, 0.5);
   
 }
 .header-middle{
@@ -83,7 +83,7 @@ a{
 .header-bottom .dropdown-item{
   padding: 7px;
   margin-bottom: 1px;
-  border-bottom: 0.2px solid #899FBC !important;
+  border-bottom: 0.2px solid rgba(137, 159, 188, 0.5) !important;
 }
 .header-bottom .dropdown-item:hover{
   background-color: transparent;
@@ -91,7 +91,7 @@ a{
 
 footer{
   background-color: #3d5a80;
-  border-bottom: 0.5px solid #899FBC;
+  border-bottom:0.5px solid rgba(137, 159, 188, 0.5);
 }
 footer:not(:first-child){
   border-top: 1px solid 1px solid rgba(255,255,255,0.1);
