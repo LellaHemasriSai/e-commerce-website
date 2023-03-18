@@ -199,3 +199,23 @@ footer .input-group-text{
   background-color: #febd69;
   color: #131921;
 }
+
+.home-wrapper-2{
+  background-color: #f5f5f7;
+}
+
+.categories{
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 15px;
+}
+.categories img{
+  width: 150px;
+  height: 150px;
+}
+.categories h6{
+  font-size: 16px;
+  line-height: 54px;
+  text-transform: none;
+  text-align: center;
+}
