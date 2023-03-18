@@ -45,6 +45,9 @@ a{
 .gap-30 {
   gap: 30px;
 }
+.gap-80{
+  gap: 80px;
+}
 .header-middle .header-links img{
   width: 35px;
   height: 35px;
@@ -212,10 +215,136 @@ footer .input-group-text{
 .categories img{
   width: 150px;
   height: 150px;
+  border-radius: 10%;
 }
 .categories h6{
   font-size: 16px;
   line-height: 54px;
   text-transform: none;
   text-align: center;
+}
+
+.product-card {
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.product-card .product-details h6 {
+  color: #bf4800;
+  font-size: 13px;
+}
+
+.product-card .product-details h5 {
+  font-size: 15px;
+  color: #1c1c1b;
+}
+
+.product-image img {
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.product-card .product-details p .price {
+  font-size: 16px;
+  color: #1c1c1b;
+}
+.product-card p .description{
+  font-size: 13px;
+  color: #777777;
+}
+.action-bar {
+  top: 10%;
+  right: -23px;
+  transition: 0.3s;
+}
+
+.product-card:hover .action-bar {
+  right: 15px;
+}
+
+.wishlist-icon {
+  top: 2%;
+  right: 15px;
+}
+
+.filter-card{
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+
+.filter-title{
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #1c1c1b;
+  margin-bottom: 20px;
+}
+
+.filter-card ul, .filter-card .form-check-label{
+  list-style-type: none;
+  font-size: 13px;
+  line-height: 30px;
+  color: #777777;
+  cursor: pointer;
+}
+.filter-card .form-check-input:focus{
+  box-shadow: none;
+  border-color: rgba(0,0,0,0.25);
+}
+.filter-card .form-check-input:checked{
+  background-color: #febd69;
+  border-color: #febd69;
+}
+.sub-title{
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c1c1b;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.colors{
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colors li{
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.filter-sort-grid{
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.grid img{
+  width: 35px;
+  height: 35px;
+  background-color: #f2f2f2;
+  padding: 8px;
+  border-radius: 3px;
+}
+
+.gr-12{
+  width: 100%;
+}
+.gr-6{
+  width: 48%;
+}
+.gr-4{
+  width: 32%;
+}
+.gr-3{
+  width: 24%;
 }
