@@ -2,7 +2,7 @@ import React from "react";
 import Meta from "../components/Meta";
 import ProductCard from "../components/productCard";
 import BreadCrumb from "../components/Store";
-
+import Color from "../components/Color";
 const OurStore = () => {
   // const { grid, setGrid } = useState(4);
   return (
@@ -75,20 +75,7 @@ const OurStore = () => {
                   </div>
                   <h5 className="sub-title">Colors</h5>
                   <div>
-                    <ul className="colors ps-0">
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                      <li></li>
-                    </ul>
+                    <Color />
                   </div>
                   <h5 className="sub-title">Size</h5>
                   <div>

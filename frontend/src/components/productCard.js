@@ -31,13 +31,6 @@ const ProductCard = () => {
               edit={false}
               activeColor="#ffd700"
             />
-            <p className="description text-black d-none">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              repudiandae voluptates ratione quia perspiciatis. Delectus
-              voluptate perspiciatis natus nihil, nostrum officiis mollitia
-              consequuntur voluptatum sunt. Rerum nesciunt tempora similique
-              nisi!
-            </p>
             <p className="price text-black">100</p>
           </div>
           <div className="action-bar position-absolute">
