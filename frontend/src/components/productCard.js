@@ -1,22 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
-
+import wish from "../images/wish.svg";
+import cat1 from "../images/category-1.jpg";
+import comp from "../images/prodcompare.svg";
+import view from "../images/view.svg";
+import addcart from "../images/add-cart.svg";
 const ProductCard = () => {
   return (
     <>
       <div className="col-3">
         <Link
+          to=":id"
           className="product-card position-relative"
           style={{ width: "300px" }}
         >
           <div className="wishlist-icon position-absolute">
             <Link>
-              <img src="images/wish.svg" alt="wishlist" />
+              <img src={wish} alt="wishlist" />
             </Link>
           </div>
           <div className="product-image">
-            <img src="images/category-1.jpg" alt="product" />
+            <img src={cat1} alt="product" />
           </div>
           <div className="product-details">
             <h6 className="brand">Zara</h6>
@@ -36,14 +41,14 @@ const ProductCard = () => {
           <div className="action-bar position-absolute">
             <div className="d-flex flex-column">
               <Link>
-                <img src="images/prodcompare.svg" alt="compare" />
+                <img src={comp} alt="compare" />
               </Link>
               <Link>
-                <img src="images/view.svg" alt="view" />
+                <img src={view} alt="view" />
               </Link>
 
               <Link>
-                <img src="images/add-cart.svg" alt="addcart" />
+                <img src={addcart} alt="addcart" />
               </Link>
             </div>
           </div>
