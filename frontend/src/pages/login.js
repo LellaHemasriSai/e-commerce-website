@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Meta from "../components/Meta";
 import BreadCrumb from "../components/Store";
 import Container from "../components/container";
+import CustomInput from "../components/customInput";
 const Login = () => {
   return (
     <>
@@ -14,22 +15,13 @@ const Login = () => {
             <div className="login-card mb-3">
               <h3 className="text-center">Login</h3>
               <form action="" className="d-flex flex-column gap-15">
-                <div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    className="form-control"
-                  />
-                </div>
-                <div className="mt-1">
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="form-control"
-                  />
-                </div>
+                <CustomInput type="email" name="email" placeholder="Email" />
+                <CustomInput
+                  className="mt-1"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
                 <div>
                   <Link to="/forgot-password" className="text-dark">
                     Forgot Password

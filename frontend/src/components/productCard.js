@@ -1,17 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import wish from "../images/wish.svg";
 import cat1 from "../images/category-1.jpg";
 import comp from "../images/prodcompare.svg";
 import view from "../images/view.svg";
 import addcart from "../images/add-cart.svg";
-const ProductCard = () => {
+const ProductCard = (props) => {
+  // const { grid } = props;
+  // console.log(grid);
+  let location = useLocation();
   return (
     <>
-      <div className="col-3">
+      <div
+        // className={`${
+        //   location.pathname == "/product" ? `gr-${grid}` : "col-3"
+        // }`}
+        className="col-3"
+      >
         <Link
-          to=":id"
+          to={`${location.pathname === "/" ? "product/:id" : ":id"}`}
           className="product-card position-relative"
           style={{ width: "300px" }}
         >
@@ -32,7 +41,7 @@ const ProductCard = () => {
             <ReactStars
               count={5}
               size={24}
-              value="3"
+              value={3}
               edit={false}
               activeColor="#ffd700"
             />

@@ -1,5 +1,6 @@
 import React from "react";
 import Container from "../components/container";
+import CustomInput from "../components/customInput";
 import Meta from "../components/Meta";
 import BreadCrumb from "../components/Store";
 
@@ -14,26 +15,22 @@ const ResetPassword = () => {
             <div className="login-card mb-3">
               <h3 className="text-center">Sign Up</h3>
               <form action="" className="d-flex flex-column gap-15">
-                <div>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="form-control"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    name="confpassword"
-                    placeholder="Confirm Password"
-                    className="form-control"
-                  />
-                </div>
+                <CustomInput
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="form-control"
+                />
+                <CustomInput
+                  type="password"
+                  name="confpassword"
+                  placeholder="Confirm Password"
+                  className="form-control"
+                />
                 <div>
                   <div className="mt-3 d-flex flex-column justify-content-center gap-15 align-items-center">
                     <button className="button border-0" type="submit">
-                      Create Account
+                      Ok
                     </button>
                   </div>
                 </div>

@@ -3,6 +3,8 @@ import React from "react";
 import Meta from "../components/Meta";
 import BreadCrumb from "../components/Store";
 import Container from "../components/container";
+import CustomInput from "../components/customInput";
+
 const SignUp = () => {
   return (
     <>
@@ -14,39 +16,19 @@ const SignUp = () => {
             <div className="login-card mb-3">
               <h3 className="text-center">Sign Up</h3>
               <form action="" className="d-flex flex-column gap-15">
-                <div>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    className="form-control"
-                  />
-                </div>
+                <CustomInput type="text" name="name" placeholder="Name" />
 
-                <div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    className="form-control"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="tel"
-                    name="mobile"
-                    placeholder="Mobile NUmber"
-                    className="form-control"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="form-control"
-                  />
-                </div>
+                <CustomInput type="email" name="email" placeholder="Email" />
+                <CustomInput
+                  type="tel"
+                  name="mobile"
+                  placeholder="Mobile Number"
+                />
+                <CustomInput
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
                 <div>
                   <div className="mt-3 d-flex flex-column justify-content-center gap-15 align-items-center">
                     <button className="button border-0" type="submit">
