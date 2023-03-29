@@ -16,9 +16,9 @@ const ProductCard = () => {
           style={{ width: "300px" }}
         >
           <div className="wishlist-icon position-absolute">
-            <Link>
+            <button className="border-0 bg-transparent">
               <img src={wish} alt="wishlist" />
-            </Link>
+            </button>
           </div>
           <div className="product-image">
             <img src={cat1} alt="product" />
@@ -40,16 +40,15 @@ const ProductCard = () => {
           </div>
           <div className="action-bar position-absolute">
             <div className="d-flex flex-column">
-              <Link>
+              <button className="border-0 bg-transparent">
                 <img src={comp} alt="compare" />
-              </Link>
-              <Link>
+              </button>
+              <button className="border-0 bg-transparent">
                 <img src={view} alt="view" />
-              </Link>
-
-              <Link>
+              </button>
+              <button className="border-0 bg-transparent">
                 <img src={addcart} alt="addcart" />
-              </Link>
+              </button>
             </div>
           </div>
         </Link>

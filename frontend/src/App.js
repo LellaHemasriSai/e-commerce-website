@@ -12,6 +12,8 @@ import ForgotPassword from "./pages/forgotPassword";
 import SignUp from "./pages/signup";
 import ResetPassword from "./pages/resetPassword";
 import SingleProduct from "./pages/singleProduct";
+import Cart from "./pages/cart";
+import Checkout from "./pages/checkout";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
             <Route path="product/:id" element={<SingleProduct />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="login" element={<Login />} />

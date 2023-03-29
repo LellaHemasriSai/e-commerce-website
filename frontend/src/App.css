@@ -545,18 +545,57 @@ footer .input-group-text{
   color: #777777;
   margin-bottom: 0px;
 }
-.border-bottom .button {
+.border-bottom .button,.cart-wrapper .button,.checkout-wrapper .button {
   background-color: #3d5a80;
   color: white;
   font-size: 14px;
   padding: 13px 33px;
   border-radius: 15px;
 }
-.border-bottom .button:hover {
+.border-bottom .button:hover,
+.cart-wrapper .button:hover,.checkout-wrapper .button:hover {
   background-color: #febd69;
   color: #131921;
 }
 .main-product-details a{
   font-size: 14px;
+  color: #777777;
+}
+
+.cart-header,.card-data{
+  border-bottom: 1px solid #eaeaea;
+}
+.cart-header h4{
+  font-size: 13px;
+  color: #777777;
+}
+.cart-col-1{
+  width: 40%;
+}
+.cart-col-2{
+  width: 10%;
+}
+.cart-col-3{
+  width: 15%;
+}
+.cart-col-4{
+  width: 15%;
+}
+.cart-col-1 p{
+  font-size: 14px;
+  color: #777777;
+}
+
+.card-data h5.price{
+  font-size: 14px;
+  color: #1c1c1b;
+}
+
+.total{
+  font-size: 14px;
+  color: #1c1c1b;
+}
+.total-price{
+  font-size: 16px;
   color: #777777;
 }
