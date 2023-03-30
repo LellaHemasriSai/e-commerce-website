@@ -8,6 +8,8 @@ const dbConnect = require("./config/dbConnector");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const authenticationRouter = require("./routes/authenticationRoute");
 const productRouter = require("./routes/productRoute");
+const categoryRouter = require("./routes/productcategoryRoute");
+const brandRouter = require("./routes/brandRoute");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
@@ -26,6 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/api/user", authenticationRouter);
 app.use("/api/product", productRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/brand", brandRouter);
 
 app.use(notFound);
 app.use(errorHandler);
