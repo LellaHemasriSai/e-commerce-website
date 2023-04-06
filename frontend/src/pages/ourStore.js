@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useState } from "react";
 import Meta from "../components/Meta";
 import ProductCard from "../components/productCard";
 import BreadCrumb from "../components/Store";
 import Color from "../components/Color";
 import Container from "../components/container";
-const OurStore = () => {
-  // const { grid, setGrid } = useState(4);
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../features/products/productSlice";
 
+const OurStore = () => {
+  const [grid, setGrid] = useState(4);
+  const productState = useSelector((state) => state.product.product);
+  console.log(productState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getProducts();
+  }, []);
+  const getProducts = () => {
+    dispatch(getAllProducts());
+  };
   return (
     <>
       <Meta title={"Our Store"} />
@@ -184,33 +195,33 @@ const OurStore = () => {
                   <p className="totalproducts mb-0">21 Products</p>
                   <div className="d-flex gap-10 align-items-center grid">
                     <img
-                      // onClick={() => {
-                      //   setGrid(3);
-                      // }}
+                      onClick={() => {
+                        setGrid(3);
+                      }}
                       src="images/gr-4.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
                     <img
-                      // onClick={() => {
-                      //   setGrid(4);
-                      // }}
+                      onClick={() => {
+                        setGrid(4);
+                      }}
                       src="images/gr-3.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
                     <img
-                      // onClick={() => {
-                      //   setGrid(6);
-                      // }}
+                      onClick={() => {
+                        setGrid(6);
+                      }}
                       src="images/gr-2.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
                     <img
-                      // onClick={() => {
-                      //   setGrid(12);
-                      // }}
+                      onClick={() => {
+                        setGrid(12);
+                      }}
                       src="images/gr-1.svg"
                       className="d-block img-fluid"
                       alt="grid"
@@ -221,8 +232,7 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-80 flex-wrap">
-                <ProductCard />
-                {/* <ProductCard grid={grid} /> */}
+                <ProductCard data={productState} grid={grid} />
               </div>
             </div>
           </div>

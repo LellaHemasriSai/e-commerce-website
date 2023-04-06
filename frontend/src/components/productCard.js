@@ -8,60 +8,72 @@ import comp from "../images/prodcompare.svg";
 import view from "../images/view.svg";
 import addcart from "../images/add-cart.svg";
 const ProductCard = (props) => {
-  // const { grid } = props;
-  // console.log(grid);
+  const { grid, data } = props;
+  console.log(data);
   let location = useLocation();
   return (
     <>
-      <div
-        // className={`${
-        //   location.pathname == "/product" ? `gr-${grid}` : "col-3"
-        // }`}
-        className="col-3"
-      >
-        <Link
-          to={`${location.pathname === "/" ? "product/:id" : ":id"}`}
-          className="product-card position-relative"
-          style={{ width: "300px" }}
-        >
-          <div className="wishlist-icon position-absolute">
-            <button className="border-0 bg-transparent">
-              <img src={wish} alt="wishlist" />
-            </button>
-          </div>
-          <div className="product-image">
-            <img src={cat1} alt="product" />
-          </div>
-          <div className="product-details">
-            <h6 className="brand">Zara</h6>
-            <h5 className="product-title">
-              kids headphones bulk 10 pack multi colored for students
-            </h5>
+      {data?.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className={`${
+              location.pathname === "/product" ? `col-${grid}` : "col-3"
+            }`}
+          >
+            <Link
+              to={`${
+                location.pathname == "/"
+                  ? "/product/:id"
+                  : location.pathname == "/product/:id"
+                  ? "/product/:id"
+                  : ":id"
+              }`}
+              className="product-card position-relative"
+              style={{ width: "300px" }}
+            >
+              <div className="wishlist-icon position-absolute">
+                <button className="border-0 bg-transparent">
+                  <img src={wish} alt="wishlist" />
+                </button>
+              </div>
+              <div className="product-image">
+                <img src={cat1} alt="product" />
+              </div>
+              <div className="product-details">
+                <h6 className="brand">{item?.brand}</h6>
+                <h5 className="product-title">{item?.title}</h5>
 
-            <ReactStars
-              count={5}
-              size={24}
-              value={3}
-              edit={false}
-              activeColor="#ffd700"
-            />
-            <p className="price text-black">100</p>
+                <ReactStars
+                  count={5}
+                  size={24}
+                  value={item?.totalrating.toString()}
+                  edit={false}
+                  activeColor="#ffd700"
+                />
+                <p
+                  className="d-block text-dark"
+                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                ></p>
+                <p className="price text-black">{item?.price}</p>
+              </div>
+              <div className="action-bar position-absolute">
+                <div className="d-flex flex-column">
+                  <button className="border-0 bg-transparent">
+                    <img src={comp} alt="compare" />
+                  </button>
+                  <button className="border-0 bg-transparent">
+                    <img src={view} alt="view" />
+                  </button>
+                  <button className="border-0 bg-transparent">
+                    <img src={addcart} alt="addcart" />
+                  </button>
+                </div>
+              </div>
+            </Link>
           </div>
-          <div className="action-bar position-absolute">
-            <div className="d-flex flex-column">
-              <button className="border-0 bg-transparent">
-                <img src={comp} alt="compare" />
-              </button>
-              <button className="border-0 bg-transparent">
-                <img src={view} alt="view" />
-              </button>
-              <button className="border-0 bg-transparent">
-                <img src={addcart} alt="addcart" />
-              </button>
-            </div>
-          </div>
-        </Link>
-      </div>
+        );
+      })}
     </>
   );
 };

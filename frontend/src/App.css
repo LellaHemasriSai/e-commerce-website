@@ -599,3 +599,15 @@ footer .input-group-text{
   font-size: 16px;
   color: #777777;
 }
+.gr-12{
+  width: 100%;
+}
+.gr-6{
+  width:48%
+}
+.gr-4{
+  width: 32%;
+}
+.gr-3{
+  width: 24%;
+}

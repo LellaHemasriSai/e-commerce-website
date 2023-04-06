@@ -35,7 +35,7 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
-  reducers: [],
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
