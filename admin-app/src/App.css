@@ -1,0 +1,33 @@
+.green {
+    color: #47ad24;
+    font-size: 14px;
+}
+
+.red {
+    color:#212529;
+    font-size: 14px;
+}
+
+.quill {
+    background-color: white;
+}
+
+.form-control {
+    box-shadow: none;
+    border-color: #c3d4da;
+}
+
+.title {
+    font: 28px;
+    color: #212529;
+}
+
+.sub-title {
+    font: 24px;
+    color: #212529;
+}
+
+.desc {
+    font: 14px;
+    color: #828599;
+}

@@ -1,0 +1,44 @@
+import "./index.css";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Login from "./pages/login";
+import ResetPassword from "./pages/resetPassword";
+import ForgotPassword from "./pages/forgotPassword";
+import MainLayout from "./components/mainLayout";
+import Dashboard from "./pages/dashboard";
+import Orders from "./pages/orders";
+import Customers from "./pages/customers";
+import ColorList from "./pages/colorList";
+import AddColor from "./pages/addColor";
+import CategoryList from "./pages/categoryList";
+import AddCategory from "./pages/addCategory";
+import AddBrand from "./pages/addBrand";
+import BrandList from "./pages/brandList";
+import ProductList from "./pages/productList";
+import AddProduct from "./pages/addProduct";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/admin" element={<MainLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="colors-list" element={<ColorList />} />
+          <Route path="colors" element={<AddColor />} />
+          <Route path="category-list" element={<CategoryList />} />
+          <Route path="category" element={<AddCategory />} />
+          <Route path="brand-list" element={<BrandList />} />
+          <Route path="brand" element={<AddBrand />} />
+          <Route path="product-list" element={<ProductList />} />
+          <Route path="product" element={<AddProduct />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
