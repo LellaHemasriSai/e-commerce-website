@@ -274,13 +274,12 @@ const userCart = asyncHandler(async (req, res) => {
   const { cart } = req.body;
   const { _id } = req.user1;
   validateMongodbId(_id);
-  const user2 = await user.findById(_id);
   try {
     let products = [];
-
-    const alreadyexists = await Cart.findOne({ orderby: user2._id });
-    if (alreadyexists) {
-      alreadyexists.remove();
+    const user2 = await user.findById(_id);
+    const alreadyExist = await Cart.findOne({ orderby: user2._id });
+    if (alreadyExist) {
+      alreadyExist.deleteOne();
     }
     for (let i = 0; i < cart.length; i++) {
       let object = {};
@@ -382,7 +381,7 @@ const createOrder = asyncHandler(async (req, res) => {
         currency: "rupees",
       },
       orderby: user2._id,
-      orderstatus: "Cash on Delivery",
+      orderStatus: "Cash on Delivery",
     }).save();
     let update = userCart.products.map((item) => {
       return {
@@ -406,8 +405,22 @@ const getOrders = asyncHandler(async (req, res) => {
     const userOrders = await order
       .findOne({ orderby: _id })
       .populate("products.product")
+      .populate("orderby")
       .exec();
     res.json(userOrders);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getAllOrders = asyncHandler(async (req, res) => {
+  try {
+    const alluserorders = await order
+      .find()
+      .populate("products.product")
+      .populate("orderby")
+      .exec();
+    res.json(alluserorders);
   } catch (error) {
     throw new Error(error);
   }
@@ -451,4 +464,5 @@ module.exports = {
   createOrder,
   getOrders,
   updateOrderStatus,
+  getAllOrders,
 };
