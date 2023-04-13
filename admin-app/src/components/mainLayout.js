@@ -11,6 +11,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { IoIosNotifications } from "react-icons/io";
 import { Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
+import { ImBlog } from "react-icons/im";
+import { RiCouponLine } from "react-icons/ri";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -103,6 +105,23 @@ const MainLayout = () => {
               key: "orders",
               icon: <FaClipboardList className="fs-4" />,
               label: "Orders",
+            },
+            {
+              key: "marketing",
+              icon: <RiCouponLine className="fs-4" />,
+              label: "Marketing",
+              children: [
+                {
+                  key: "coupon",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCouponLine className="fs-4" />,
+                  label: "Coupon List",
+                },
+              ],
             },
           ]}
         />

@@ -15,6 +15,8 @@ import AddBrand from "./pages/addBrand";
 import BrandList from "./pages/brandList";
 import ProductList from "./pages/productList";
 import AddProduct from "./pages/addProduct";
+import AddCoupon from "./pages/addCoupon";
+import CouponList from "./pages/couponList";
 
 function App() {
   return (
@@ -33,8 +35,11 @@ function App() {
           <Route path="category" element={<AddCategory />} />
           <Route path="brand-list" element={<BrandList />} />
           <Route path="brand" element={<AddBrand />} />
+          <Route path="brand/:id" element={<AddBrand />} />
           <Route path="product-list" element={<ProductList />} />
           <Route path="product" element={<AddProduct />} />
+          <Route path="coupon" element={<AddCoupon />} />
+          <Route path="coupon-list" element={<CouponList />} />
         </Route>
       </Routes>
     </BrowserRouter>

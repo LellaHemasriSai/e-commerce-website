@@ -45,18 +45,18 @@ const Orders = () => {
     data1.push({
       key: i + 1,
       name: orderstate[i].orderby.firstname,
-      // product: (
-      //   <Link to={`/admin/order/${orderstate[i].orderby._id}`}>
-      //     View Orders
-      //   </Link>
-      // ),
-      product: orderstate[i].products.map((i, j) => {
-        return (
-          <ul key={j}>
-            <li>{i.product.title}</li>
-          </ul>
-        );
-      }),
+      product: (
+        <Link to={`/admin/order/${orderstate[i].orderby._id}`}>
+          View Orders
+        </Link>
+      ),
+      // product: orderstate[i].products.map((i, j) => {
+      //   return (
+      //     <ul key={j}>
+      //       <li>{i.product.title}</li>
+      //     </ul>
+      //   );
+      // }),
       amount: orderstate[i].paymentIntent.amount,
       date: new Date(orderstate[i].createdAt).toLocaleString(),
       action: (
