@@ -12,6 +12,9 @@ import { IoIosNotifications } from "react-icons/io";
 import { Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
 import { useNavigate, Outlet, Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -176,6 +179,17 @@ const MainLayout = () => {
           }}
         >
           <main>
+            <ToastContainer
+              position="top-right"
+              autoClose={250}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              theme="light"
+            />
             <Outlet />
           </main>
         </Content>

@@ -23,14 +23,10 @@ var productSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "Category",
       type: String,
       required: true,
     },
     brand: {
-      // type: String,
-      // enum: ["Apple", "Lenovo", "Samsung"],
       type: String,
       required: true,
     },
@@ -38,20 +34,19 @@ var productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    images: [],
+    images: [{ public_id: String, url: String }],
     color: [],
-    tags: [],
+    tags: String,
     ratings: [
       {
         star: Number,
         comment: String,
-        postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+        postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       },
     ],
     sold: {
       type: Number,
       default: 0,
-      // select: false,
     },
     totalrating: {
       type: String,
