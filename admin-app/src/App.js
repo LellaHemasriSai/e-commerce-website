@@ -17,6 +17,7 @@ import ProductList from "./pages/productList";
 import AddProduct from "./pages/addProduct";
 import AddCoupon from "./pages/addCoupon";
 import CouponList from "./pages/couponList";
+import ViewOrder from "./pages/viewOrder";
 
 function App() {
   return (
@@ -28,17 +29,21 @@ function App() {
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="order/:id" element={<ViewOrder />} />
           <Route path="customers" element={<Customers />} />
           <Route path="colors-list" element={<ColorList />} />
           <Route path="colors" element={<AddColor />} />
+          <Route path="colors/:id" element={<AddColor />} />
           <Route path="category-list" element={<CategoryList />} />
           <Route path="category" element={<AddCategory />} />
+          <Route path="category/:id" element={<AddCategory />} />
           <Route path="brand-list" element={<BrandList />} />
           <Route path="brand" element={<AddBrand />} />
           <Route path="brand/:id" element={<AddBrand />} />
           <Route path="product-list" element={<ProductList />} />
           <Route path="product" element={<AddProduct />} />
           <Route path="coupon" element={<AddCoupon />} />
+          <Route path="coupon/:id" element={<AddCoupon />} />
           <Route path="coupon-list" element={<CouponList />} />
         </Route>
       </Routes>

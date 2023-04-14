@@ -7,9 +7,9 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../features/brand/brandSlice";
-import { getProductCategory } from "../features/productCategory/productCategorySlice";
+import { getProductCategories } from "../features/productCategory/productCategorySlice";
 import { Select } from "antd";
-import { getColor } from "../features/color/colorSlice";
+import { getColors } from "../features/color/colorSlice";
 import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
 import { uploadImage, deleteImage } from "../features/upload/uploadSlice";
@@ -36,8 +36,8 @@ const AddProduct = () => {
   const [images, setImages] = useState([]);
   useEffect(() => {
     dispatch(getBrands());
-    dispatch(getProductCategory());
-    dispatch(getColor());
+    dispatch(getProductCategories());
+    dispatch(getColors());
   }, []);
   const brandstate = useSelector((state) => state.brand.brands);
   const colorstate = useSelector((state) => state.color.color);

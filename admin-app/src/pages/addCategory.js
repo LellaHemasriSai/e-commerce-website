@@ -7,7 +7,10 @@ import { toast } from "react-toastify";
 import {
   createProductCategory,
   resetState,
+  updateAProductCategory,
+  getProductCategory,
 } from "../features/productCategory/productCategorySlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 let schema = yup.object().shape({
   title: yup.string().required("Category name is Required"),
@@ -15,12 +18,34 @@ let schema = yup.object().shape({
 
 const AddCategory = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const getCategoryId = location.pathname.split("/")[3];
   const newcategory = useSelector((state) => state.productCategory);
-  const { isSuccess, isError, isLoading, createdProductCategory } = newcategory;
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdProductCategory,
+    categoryName,
+    updatedCategory,
+  } = newcategory;
+
+  useEffect(() => {
+    if (getCategoryId !== undefined) {
+      dispatch(getProductCategory(getCategoryId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [getCategoryId]);
+
   useEffect(() => {
     if (isSuccess && createdProductCategory) {
       toast.success("Product Category Added Successfully!!");
+    }
+    if (isSuccess && updatedCategory) {
+      toast.success("Category Updated Successfullly!");
+      navigate("/admin/category-list");
     }
     if (isError) {
       toast.error("Something went wrong!!");
@@ -28,21 +53,30 @@ const AddCategory = () => {
   }, [isSuccess, isError, isLoading]);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: categoryName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createProductCategory(values));
-      formik.resetForm();
-      setTimeout(() => {
+      if (getCategoryId !== undefined) {
+        const data = { id: getCategoryId, categoryData: values };
+        dispatch(updateAProductCategory(data));
         dispatch(resetState());
-      }, 3000);
+      } else {
+        dispatch(createProductCategory(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
     },
   });
   return (
     <div>
-      <h3 className="mb-4 title">Add Product Category</h3>
+      <h3 className="mb-4 title">
+        {getCategoryId !== undefined ? "Edit" : "Add"} Product Category
+      </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
@@ -60,7 +94,7 @@ const AddCategory = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Product Category
+            {getCategoryId !== undefined ? "Edit" : "Add"} Product Category
           </button>
         </form>
       </div>
