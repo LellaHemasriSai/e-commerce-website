@@ -35,7 +35,7 @@ var userSchema = new mongoose.Schema(
       default: [],
     },
     address: { type: String },
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "product" }],
     refreshToken: {
       type: String,
     },

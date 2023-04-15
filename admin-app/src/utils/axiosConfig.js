@@ -10,5 +10,3 @@ export const config = {
     Accept: "application/json",
   },
 };
-
-// export default { config, getTokenfromLocalStorage };
