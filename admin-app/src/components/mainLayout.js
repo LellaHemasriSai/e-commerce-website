@@ -16,9 +16,10 @@ import { RiCouponLine } from "react-icons/ri";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useSelector } from "react-redux";
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
+  const userstate = useSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -163,8 +164,8 @@ const MainLayout = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <h5 className="text-dark mb-0">Hemasri</h5>
-                <p className="mb-0">hemasri.lella@gmail.com</p>
+                <h5 className="text-dark mb-0">{userstate?.user?.firstname}</h5>
+                <p className="mb-0">{userstate?.user?.email}</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>

@@ -23,6 +23,26 @@ const getOrderById = async (id) => {
   );
   return response.data;
 };
+const getMonthlyOrders = async () => {
+  const response = await axios.get(
+    `${base_url}user/getmonthwiseorderincome`,
+    config
+  );
+  return response.data;
+};
+const getYearlyStats = async () => {
+  const response = await axios.get(
+    `${base_url}user/getyearlytotalorders`,
+    config
+  );
+  return response.data;
+};
 
-const authService = { getOrder, login, getOrderById };
+const authService = {
+  getOrder,
+  login,
+  getOrderById,
+  getMonthlyOrders,
+  getYearlyStats,
+};
 export default authService;

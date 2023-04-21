@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [amount, setAmount] = useState(null);
+  const [paginate, setPaginate] = useState(null);
+  const productstate = useSelector((state) => state.product.product);
   const cartstate = useSelector((state) => state.auth.cartProducts);
   const authstate = useSelector((state) => state.auth);
+  const [productOpt, setProductOpt] = useState([]);
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartstate?.length; index++) {
@@ -15,6 +21,14 @@ const Header = () => {
       setAmount(sum);
     }
   });
+  useEffect(() => {
+    let data = [];
+    for (let index = 0; index < productstate.length; index++) {
+      const element = productstate[index];
+      data.push({ id: index, prod: element?._id, name: element?.title });
+    }
+    setProductOpt(data);
+  }, [productstate]);
   return (
     <>
       <header className="header-top py-2">
@@ -40,12 +54,17 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control "
-                  placeholder="Search Product"
-                  aria-label="Search Product"
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log("Results Paginated")}
+                  onChange={(selected) => {
+                    navigate(`/product/${selected[0].prod}`);
+                  }}
+                  options={productOpt}
+                  paginate={paginate}
+                  labelKey={"name"}
+                  minLength={2}
+                  placeholder="Search for products.."
                 />
                 <span className="input-group-text" id="basic-addon2">
                   <BsSearch className="fs-5" />

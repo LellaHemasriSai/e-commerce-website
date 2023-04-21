@@ -25,6 +25,8 @@ const {
   removeProductCart,
   UpdateProductQuantityCart,
   getMyOrders,
+  getMonthWiseOrderIncome,
+  getYearlyTotalOrders,
 } = require("../controller/userControl");
 const { authentication, isAdmin } = require("../middlewares/authentication");
 const {
@@ -60,6 +62,8 @@ router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
 
 router.get("/cart", authentication, getUserCart);
+router.get("/getmonthwiseorderincome", authentication, getMonthWiseOrderIncome);
+router.get("/getyearlytotalorders", authentication, getYearlyTotalOrders);
 router.get("/:id", authentication, isAdmin, getAUser);
 router.delete("/empty-cart", authentication, emptyCart);
 router.delete(
