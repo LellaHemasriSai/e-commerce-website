@@ -2,6 +2,7 @@ const product = require("../schemas/productSchema");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
 const user = require("../schemas/userSchema");
+const { validateMongodbId } = require("../utils/validateMongodbId");
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
@@ -17,8 +18,9 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const getProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongodbId(id);
   try {
-    const findProduct = await product.findById(id);
+    const findProduct = await product.findById(id).populate("color");
     res.json(findProduct);
   } catch (error) {
     throw new Error(error);
@@ -98,22 +100,23 @@ const addToWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
   const { prodId } = req.body;
   try {
+    let products = [];
     const user2 = await user.findById(_id);
     const alreadyadded = user2.wishlist.find((id) => id.toString() === prodId);
     if (alreadyadded) {
-      let user2 = await user.findByIdAndUpdate(
+      let user3 = await user.findByIdAndUpdate(
         _id,
         { $pull: { wishlist: prodId } },
         { new: true }
       );
-      res.json(user2);
+      res.json(user3);
     } else {
-      let user2 = await user.findByIdAndUpdate(
+      let user3 = await user.findByIdAndUpdate(
         _id,
         { $push: { wishlist: prodId } },
         { new: true }
       );
-      res.json(user2);
+      res.json(user3);
     }
   } catch (error) {
     throw new Error(error);

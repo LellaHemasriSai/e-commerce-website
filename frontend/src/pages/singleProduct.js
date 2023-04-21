@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import ReactImageZoom from "react-image-zoom";
 // import { Link } from "react-router-dom";
@@ -8,14 +8,61 @@ import BreadCrumb from "../components/Store";
 import Color from "../components/Color";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
-import cat1 from "../images/category-1.jpg";
 import Container from "../components/container";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAProduct } from "../features/products/productSlice";
+import { toast } from "react-toastify";
+import { addProdToCart, getUserCart } from "../features/user/userSlice";
+
 const SingleProduct = () => {
+  const [color, setColor] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [alreadyadded, setAlreadyadded] = useState(false);
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[2];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const productstate = useSelector((state) => state.product.singleproduct);
+  const cartstate = useSelector((state) => state.auth.cartProducts);
+  // console.log(cartstate);
+  useEffect(() => {
+    dispatch(getAProduct(getProductId));
+    dispatch(getUserCart());
+  }, []);
+
+  useEffect(() => {
+    for (let index = 0; index < cartstate?.length; index++) {
+      if (getProductId === cartstate[index]?.productId?._id) {
+        setAlreadyadded(true);
+      }
+    }
+  }, []);
+
+  const uploadCart = () => {
+    if (color === null) {
+      toast.error("Please Choose Color");
+      return false;
+    } else {
+      dispatch(
+        addProdToCart({
+          productId: productstate?._id,
+          quantity,
+          color,
+          price: productstate?.price,
+        })
+      );
+      navigate("/cart");
+    }
+  };
+
   const props = {
     width: 400,
     height: 600,
     zoomWidth: 600,
-    img: "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/19540794/2023/2/3/d44f29c2-6a82-430e-8007-68b9551c98201675402105747-MANGO-Women-Jackets-3091675402104976-1.jpg",
+    img: productstate?.images[0]?.url
+      ? productstate?.images[0]?.url
+      : "https://m.media-amazon.com/images/I/41YamNJ29mL._SY300_SX300_QL70_FMwebp_.jpg",
   };
   const [orderedProduct] = useState(true);
   return (
@@ -31,32 +78,27 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              <div>
-                <img src={cat1} alt="" className="img-fluid" />
-              </div>
-              <div>
-                <img src={cat1} alt="" className="img-fluid" />
-              </div>
-              <div>
-                <img src={cat1} alt="" className="img-fluid" />
-              </div>
-              <div>
-                <img src={cat1} alt="" className="img-fluid" />
-              </div>
+              {productstate?.images.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <img src={item?.url} alt="" className="img-fluid" />
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="col-6">
             <div className="main-product-details">
               <div className="border-bottom">
-                <h3 className="title">Dress</h3>
+                <h3 className="title">{productstate?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">100</p>
+                <p className="price">{productstate?.price}</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={productstate?.totalrating}
                     edit={false}
                     activeColor="#ffd700"
                   />
@@ -73,11 +115,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand: </h3>
-                  <p className="product-data">Zara</p>
+                  <p className="product-data">{productstate?.brand}</p>
+                </div>
+                <div className="d-flex gap-10 align-items-center my-2">
+                  <h3 className="product-heading">Category: </h3>
+                  <p className="product-data">{productstate?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags: </h3>
-                  <p className="product-data">Dress</p>
+                  <p className="product-data">{productstate?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availability: </h3>
@@ -100,26 +146,47 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex flex-column gap-10 mt-2 mb-3">
-                  <h3 className="product-heading">Color: </h3>
-                  <Color />
-                </div>
+                {alreadyadded === false && (
+                  <>
+                    <div className="d-flex flex-column gap-10 mt-2 mb-3">
+                      <h3 className="product-heading">Color: </h3>
+                      <Color
+                        setColor={setColor}
+                        colorData={productstate?.color}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="d-flex flex-row align-items-center gap-10 mt-2 mb-3">
-                  <h3 className="product-heading">Quantity: </h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      name=""
-                      min={1}
-                      max={10}
-                      className="form-control"
-                      style={{ width: "70px" }}
-                      id=""
-                    />
-                  </div>
+                  {alreadyadded === false && (
+                    <>
+                      <h3 className="product-heading">Quantity: </h3>
+                      <div className="">
+                        <input
+                          type="number"
+                          name=""
+                          min={1}
+                          max={10}
+                          className="form-control"
+                          style={{ width: "70px" }}
+                          id=""
+                          onChange={(e) => setQuantity(e.target.value)}
+                          value={quantity}
+                        />
+                      </div>
+                    </>
+                  )}
                   <div className="d-flex  align-items-center gap-30 ms-5">
-                    <button className="button border-0" type="submit">
-                      Add to Cart
+                    <button
+                      className="button border-0"
+                      type="button"
+                      onClick={() => {
+                        alreadyadded
+                          ? navigate("/cart")
+                          : uploadCart(productstate?._id);
+                      }}
+                    >
+                      {alreadyadded ? "Go to Cart" : "Add to Cart"}
                     </button>
                     <button className="button signup border-0">Buy Now</button>
                   </div>
@@ -155,12 +222,9 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Description</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-                quo natus error sapiente nihil cumque repudiandae quidem, optio
-                enim, rem animi adipisci facilis cum voluptatibus fuga
-                veritatis, asperiores voluptatum qui!
-              </p>
+              <p
+                dangerouslySetInnerHTML={{ __html: productstate?.description }}
+              ></p>
             </div>
           </div>
         </div>

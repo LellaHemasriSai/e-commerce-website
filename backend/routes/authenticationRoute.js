@@ -19,12 +19,18 @@ const {
   emptyCart,
   applyCoupon,
   createOrder,
-  getOrders,
   updateOrderStatus,
   getAllOrders,
   getOrderByUserId,
+  removeProductCart,
+  UpdateProductQuantityCart,
+  getMyOrders,
 } = require("../controller/userControl");
 const { authentication, isAdmin } = require("../middlewares/authentication");
+const {
+  checkout,
+  paymentVerification,
+} = require("../controller/paymentControl");
 const router = express.Router();
 
 router.post("/register", createUser);
@@ -39,19 +45,33 @@ router.put(
 router.put("/password", authentication, updatePassword);
 router.post("/login", loginControl);
 router.post("/admin-login", loginAdmin);
+router.post("/order/checkout", authentication, checkout);
 router.post("/cart", authentication, userCart);
-router.post("/cart/applycoupon", authentication, applyCoupon);
-router.post("/cart/cash-order", authentication, createOrder);
+
+router.post("/order/paymentVerification", authentication, paymentVerification);
+// router.post("/cart/applycoupon", authentication, applyCoupon);
+router.post("/cart/create-order", authentication, createOrder);
+router.get("/wishlist", authentication, getWishlist);
 router.get("/all-users", getAllUsers);
-router.get("/get-orders", authentication, getOrders);
-router.get("/getallorders", authentication, isAdmin, getAllOrders);
-router.post("/getordersbyuser/:id", authentication, isAdmin, getOrderByUserId);
+router.get("/getmyorders", authentication, getMyOrders);
+// router.get("/getallorders", authentication, isAdmin, getAllOrders);
+// router.post("/getordersbyuser/:id", authentication, isAdmin, getOrderByUserId);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
-router.get("/wishlist", authentication, getWishlist);
+
 router.get("/cart", authentication, getUserCart);
 router.get("/:id", authentication, isAdmin, getAUser);
 router.delete("/empty-cart", authentication, emptyCart);
+router.delete(
+  "/delete-product-cart/:cartItemId",
+  authentication,
+  removeProductCart
+);
+router.delete(
+  "/update-product-cart/:cartItemId/:newQuantity",
+  authentication,
+  UpdateProductQuantityCart
+);
 router.delete("/:id", deleteAUser);
 router.put("/edit-user", authentication, updateAUser);
 router.put("/save-address", authentication, saveAddress);

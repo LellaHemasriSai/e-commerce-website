@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+
 const Header = () => {
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState(null);
+  const cartstate = useSelector((state) => state.auth.cartProducts);
+  const authstate = useSelector((state) => state.auth);
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < cartstate?.length; index++) {
+      sum = sum + Number(cartstate[index].quantity) * cartstate[index].price;
+      setAmount(sum);
+    }
+  });
   return (
     <>
       <header className="header-top py-2">
@@ -70,15 +83,20 @@ const Header = () => {
                 </div>
                 <div>
                   <Link
-                    to="/login"
+                    to={authstate?.user === null ? "/logincs" : ""}
                     className="text-white d-flex align-items-center gap-10"
                   >
                     <img src="images/user.svg" alt="login" />
-                    <p className="mb-0">
-                      User
-                      <br />
-                      Login
-                    </p>
+                    {authstate?.user === null ? (
+                      <p className="mb-0">
+                        Log in <br /> My account
+                      </p>
+                    ) : (
+                      <p className="mb-0">
+                        Welcome <br />
+                        {authstate?.user?.firstname}
+                      </p>
+                    )}
                   </Link>
                 </div>
                 <div>
@@ -88,8 +106,10 @@ const Header = () => {
                   >
                     <img src="images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">500</p>
+                      <span className="badge bg-white text-dark">
+                        {cartstate?.length ? cartstate?.length : 0}
+                      </span>
+                      <p className="mb-0">{amount ? amount : 0}</p>
                     </div>
                   </Link>
                 </div>
@@ -142,6 +162,7 @@ const Header = () => {
                   <div className="d-flex align-tems-center gap-15">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/product">Our Store</NavLink>
+                    <NavLink to="/my-orders">My Orders</NavLink>
                     <NavLink to="/">Blogs</NavLink>
                     <NavLink to="/conatct">Contact</NavLink>
                   </div>

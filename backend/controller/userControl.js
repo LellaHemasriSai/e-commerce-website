@@ -248,7 +248,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 const getWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
   try {
-    const findUser = await user.findById(_id);
+    const findUser = await user.findById(_id).populate("wishlist");
     res.json(findUser);
   } catch (error) {
     throw new Error();
@@ -271,33 +271,16 @@ const saveAddress = asyncHandler(async (req, res, next) => {
 });
 
 const userCart = asyncHandler(async (req, res) => {
-  const { cart } = req.body;
+  const { productId, color, quantity, price } = req.body;
   const { _id } = req.user1;
   validateMongodbId(_id);
   try {
-    let products = [];
-    const user2 = await user.findById(_id);
-    const alreadyExist = await Cart.findOne({ orderby: user2._id });
-    if (alreadyExist) {
-      alreadyExist.deleteOne();
-    }
-    for (let i = 0; i < cart.length; i++) {
-      let object = {};
-      object.product = cart[i]._id;
-      object.count = cart[i].count;
-      object.color = cart[i].color;
-      let getPrice = await product.findById(cart[i]._id).select("price").exec();
-      object.price = getPrice.price;
-      products.push(object);
-    }
-    let cartTotal = 0;
-    for (let i = 0; i < products.length; i++) {
-      cartTotal = cartTotal + products[i].price * products[i].count;
-    }
     let newCart = await new Cart({
-      products,
-      cartTotal,
-      orderby: user2?._id,
+      userId: _id,
+      productId: productId,
+      color: color,
+      price: price,
+      quantity: quantity,
     }).save();
     res.json(newCart);
   } catch (error) {
@@ -309,10 +292,42 @@ const getUserCart = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
   validateMongodbId(_id);
   try {
-    const cart = await Cart.findOne({ orderby: _id }).populate(
-      "products.product"
-    );
+    const cart = await Cart.find({ userId: _id })
+      .populate("productId")
+      .populate("color");
     res.json(cart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const removeProductCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  const { cartItemId } = req.params;
+  validateMongodbId(_id);
+  try {
+    const deleteProduct = await Cart.deleteOne({
+      _id: cartItemId,
+      userId: _id,
+    });
+    res.json(deleteProduct);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const UpdateProductQuantityCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  const { cartItemId, newQuantity } = req.params;
+  validateMongodbId(_id);
+  try {
+    const cartProduct = await Cart.findOne({
+      _id: cartItemId,
+      userId: _id,
+    });
+    cartProduct.quantity = newQuantity;
+    cartProduct.save();
+    res.json(cartProduct);
   } catch (error) {
     throw new Error(error);
   }
@@ -323,7 +338,7 @@ const emptyCart = asyncHandler(async (req, res) => {
   validateMongodbId(_id);
   try {
     const user2 = await user.findOne({ _id });
-    const cart = await Cart.findOneAndRemove({ orderby: user2._id });
+    const cart = await Cart.findOneAndRemove({ userId: user2._id });
     res.json(cart);
   } catch (error) {
     throw new Error(error);
@@ -355,58 +370,39 @@ const applyCoupon = asyncHandler(async (req, res) => {
 });
 
 const createOrder = asyncHandler(async (req, res) => {
-  const { cod, couponapplied } = req.body;
+  const {
+    shippingInfo,
+    orderItems,
+    totalPrice,
+    totalPriceAfterDiscount,
+    paymentInfo,
+  } = req.body;
   const { _id } = req.user1;
-  validateMongodbId(_id);
   try {
-    if (!cod) {
-      throw new Error("COD failed");
-    }
-    const user2 = await user.findById(_id);
-    let userCart = await Cart.findOne({ orderby: user2._id });
-    let finalAmount = 0;
-    if (couponapplied && userCart.totalAfterDiscount) {
-      finalAmount = userCart.totalAfterDiscount * 100;
-    } else {
-      finalAmount = userCart.cartTotal * 100;
-    }
-    let newOrder = await new order({
-      products: userCart.products,
-      paymentIntent: {
-        id: uniqid(),
-        method: "COD",
-        amount: finalAmount,
-        status: "Cash on Delivery",
-        created: Date.now(),
-        currency: "rupees",
-      },
-      orderby: user2._id,
-      orderStatus: "Cash on Delivery",
-    }).save();
-    let update = userCart.products.map((item) => {
-      return {
-        updateOne: {
-          filter: { _id: item.product._id },
-          update: { $inc: { quantity: item.count, sold: +item.count } },
-        },
-      };
+    const order1 = await order.create({
+      shippingInfo,
+      orderItems,
+      totalPrice,
+      totalPriceAfterDiscount,
+      paymentInfo,
+      user: _id,
     });
-    const updated = await product.bulkWrite(update, {});
-    res.json({ message: "success" });
+    res.json({ order1, success: true });
   } catch (error) {
     throw new Error(error);
   }
 });
 
-const getOrders = asyncHandler(async (req, res) => {
+const getMyOrders = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
-  validateMongodbId(_id);
+  // validateMongodbId(_id);
   try {
     const userOrders = await order
-      .findOne({ orderby: _id })
-      .populate("products.product")
-      .populate("orderby")
-      .exec();
+      .findOne({ user: _id })
+      .populate("user")
+      .populate("orderItems.product")
+      .populate("orderItems.color");
+
     res.json(userOrders);
   } catch (error) {
     throw new Error(error);
@@ -477,8 +473,10 @@ module.exports = {
   emptyCart,
   applyCoupon,
   createOrder,
-  getOrders,
+  getMyOrders,
   updateOrderStatus,
   getAllOrders,
   getOrderByUserId,
+  removeProductCart,
+  UpdateProductQuantityCart,
 };

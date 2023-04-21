@@ -41,7 +41,7 @@ const Orders = () => {
   const orderstate = useSelector((state) => state.auth.orders);
   // console.log(orderstate);
   const data1 = [];
-  for (let i = 0; i < orderstate.length; i++) {
+  for (let i = 0; i < orderstate?.length; i++) {
     data1.push({
       key: i + 1,
       name: orderstate[i].orderby.firstname,

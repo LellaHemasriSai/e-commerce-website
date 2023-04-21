@@ -35,7 +35,7 @@ var productSchema = new mongoose.Schema(
       required: true,
     },
     images: [{ public_id: String, url: String }],
-    color: [],
+    color: [{ type: mongoose.Schema.Types.ObjectId, ref: "color" }],
     tags: String,
     ratings: [
       {
@@ -49,7 +49,7 @@ var productSchema = new mongoose.Schema(
       default: 0,
     },
     totalrating: {
-      type: String,
+      type: Number,
       default: 0,
     },
   },
