@@ -74,14 +74,31 @@ const getAllProduct = asyncHandler(async (req, res) => {
 });
 const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongodbId(id);
   try {
-    if (req.body.title) {
-      req.body.name = slugify(req.body.title);
-    }
-    const updateProduct = await product.findByIdAndUpdate(id, req.body, {
+    const updatedProduct = await product.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    res.json(updateProduct);
+    res.json(updatedProduct);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const UpdateProductQuantity = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  quantity1 = req.body.productquantity?.quantity;
+  sold1 = req.body.productquantity?.sold;
+  pId = req.body.productquantity?.prodId;
+  // console.log(req.body.productquantity);
+  validateMongodbId(_id);
+  try {
+    const updquantity = await product.findById(pId);
+    updquantity.quantity = quantity1;
+    updquantity.sold = sold1;
+
+    updquantity.save();
+    res.json(updquantity);
+    // console.log(req.body.productquantity);
   } catch (error) {
     throw new Error(error);
   }
@@ -171,4 +188,5 @@ module.exports = {
   deleteProduct,
   addToWishlist,
   rating,
+  UpdateProductQuantity,
 };

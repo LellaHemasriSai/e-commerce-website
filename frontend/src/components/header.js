@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
+import { AiOutlineBank } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -75,14 +76,14 @@ const Header = () => {
               <div className="header-links">
                 <div>
                   <Link
-                    to="compare-product"
+                    to="add-bank"
                     className="text-white d-flex align-items-center gap-10"
                   >
-                    <img src="images/compare.svg" alt="compare" />
+                    <AiOutlineBank />
                     <p className="mb-0">
-                      Compare
+                      Add Bank
                       <br />
-                      Products
+                      Accounts
                     </p>
                   </Link>
                 </div>
@@ -128,7 +129,7 @@ const Header = () => {
                       <span className="badge bg-white text-dark">
                         {cartstate?.length ? cartstate?.length : 0}
                       </span>
-                      <p className="mb-0">{amount ? amount : 0}</p>
+                      <p className="mb-0">{amount ? amount : "0"}</p>
                     </div>
                   </Link>
                 </div>

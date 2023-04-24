@@ -48,21 +48,21 @@ const CategoryList = () => {
   );
   // console.log(state);
   const data1 = [];
-  for (let i = 0; i < productCategorystate.length; i++) {
+  for (let i = 0; i < productCategorystate?.length; i++) {
     data1.push({
       key: i + 1,
-      title: productCategorystate[i].title,
+      title: productCategorystate[i]?.title,
       action: (
         <>
           <Link
-            to={`/admin/category/${productCategorystate[i]._id}`}
+            to={`/admin/category/${productCategorystate[i]?._id}`}
             className="fs-3 text-danger"
           >
             <BiEdit />
           </Link>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
-            onClick={() => showModal(productCategorystate[i]._id)}
+            onClick={() => showModal(productCategorystate[i]?._id)}
           >
             <AiFillDelete />
           </button>

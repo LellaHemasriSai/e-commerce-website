@@ -3,13 +3,13 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import Container from "../components/container";
 import { useDispatch, useSelector } from "react-redux";
+import CustomInput from "../components/customInput";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { config } from "../utils/axiosConfig";
-import { createAnOrder, updateAmount } from "../features/user/userSlice";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { createAnOrder } from "../features/user/userSlice";
+
 const shippingSchema = yup.object({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -22,9 +22,6 @@ const shippingSchema = yup.object({
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  let index1 = location.state.account;
-  const [bankamount, setBankamount] = useState(null);
   const [tamount, setAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
   const [paymentInfo, setPaymentInfo] = useState({
@@ -32,11 +29,9 @@ const Checkout = () => {
     razorpayOrderId: "",
   });
   const [productstate, setProductstate] = useState([]);
+  console.log(paymentInfo, shippingInfo);
   const userstate = useSelector((state) => state.auth);
   const cartstate = useSelector((state) => state.auth.cartProducts);
-  const bankstate = useSelector((state) => state?.auth?.bank);
-  let amt1 = bankstate[index1]?.amount;
-  amt1 = amt1 - tamount;
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartstate?.length; index++) {
@@ -44,7 +39,6 @@ const Checkout = () => {
       setAmount(sum);
     }
   }, [cartstate]);
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -60,11 +54,7 @@ const Checkout = () => {
     onSubmit: (values) => {
       setShippingInfo(values);
       setTimeout(() => {
-        if (amt1 >= 0) {
-          checkOutHandler(amt1, index1);
-        } else {
-          toast.error("Account Balance is Less!!");
-        }
+        checkOutHandler();
       }, 300);
     },
   });
@@ -91,12 +81,11 @@ const Checkout = () => {
         quantity: cartstate[index].quantity,
         color: cartstate[index].color._id,
         price: cartstate[index].price,
-        bankId: bankstate[index1]?._id,
       });
     }
     setProductstate(items);
   }, []);
-  const checkOutHandler = async (amt, index) => {
+  const checkOutHandler = async () => {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -117,7 +106,7 @@ const Checkout = () => {
     const { amount, id: order_id, currency } = result.data.order;
 
     const options = {
-      key: "rzp_test_IkTrsrpynLHLwp",
+      key: "rzp_test_IkTrsrpynLHLwp", // Enter the Key ID generated from the Dashboard
       amount: amount,
       currency: currency,
       name: "Ecommerce",
@@ -139,22 +128,15 @@ const Checkout = () => {
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
         });
-        if (amt >= 0) {
-          dispatch(
-            createAnOrder({
-              totalPrice: tamount,
-              totalPriceAfterDiscount: tamount,
-              orderItems: productstate,
-              paymentInfo: paymentInfo,
-              shippingInfo: shippingInfo,
-            })
-          );
-          setBankamount({
-            title: bankstate[index]?.title,
-            amount: amt,
-          });
-          dispatch(updateAmount(bankamount));
-        }
+        dispatch(
+          createAnOrder({
+            totalPrice: tamount,
+            totalPriceAfterDiscount: tamount,
+            orderItems: productstate,
+            paymentInfo: paymentInfo,
+            shippingInfo: shippingInfo,
+          })
+        );
       },
       prefill: {
         name: "Ecommerce",

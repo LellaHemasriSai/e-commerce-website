@@ -332,6 +332,40 @@ const UpdateProductQuantityCart = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+const UpdateBankAmount = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  amount = req.body.bankamount?.amount;
+  tid = req.body.bankamount?.title;
+  uId = req.body.bankamount?.userId;
+  // console.log(req.body.bankamount);
+  validateMongodbId(_id);
+  try {
+    const updamount = await user.findById(uId);
+    for (let index = 0; index < updamount.bank?.length; index++) {
+      // console.log(updamount.bank[index]._id.toString());
+      if (updamount.bank[index]._id === tid) {
+        updamount.bank[index].amount = amount;
+      }
+    }
+    updamount.save();
+    res.json(updamount);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const UpdateBankAccount = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  try {
+    let updbank = await user.findByIdAndUpdate(
+      _id,
+      { $push: req.body },
+      { new: true }
+    );
+    res.json(updbank);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
 const emptyCart = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
@@ -395,15 +429,9 @@ const createOrder = asyncHandler(async (req, res) => {
 
 const getMyOrders = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
-  // validateMongodbId(_id);
   try {
-    const userOrders = await order
-      .findOne({ user: _id })
-      .populate("user")
-      .populate("orderItems.product")
-      .populate("orderItems.color");
-
-    res.json(userOrders);
+    const orders = await order.find({ user: _id });
+    res.json(orders);
   } catch (error) {
     throw new Error(error);
   }
@@ -411,12 +439,8 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
 const getAllOrders = asyncHandler(async (req, res) => {
   try {
-    const alluserorders = await order
-      .find()
-      .populate("products.product")
-      .populate("orderby")
-      .exec();
-    res.json(alluserorders);
+    const orders = await order.find().populate("user");
+    res.json(orders);
   } catch (error) {
     throw new Error(error);
   }
@@ -427,10 +451,10 @@ const getOrderByUserId = asyncHandler(async (req, res) => {
   validateMongodbId(id);
   try {
     const userOrders = await order
-      .findOne({ orderby: id })
-      .populate("products.product")
-      .populate("orderby")
-      .exec();
+      .findOne({ _id: id })
+      .populate("orderItems.product")
+      // .populate("user")
+      .populate("orderItems.color");
     res.json(userOrders);
   } catch (error) {
     throw new Error(error);
@@ -438,15 +462,38 @@ const getOrderByUserId = asyncHandler(async (req, res) => {
 });
 
 const updateOrderStatus = asyncHandler(async (req, res) => {
-  const { status } = req.body;
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const updateorder = await order.findByIdAndUpdate(
-      id,
-      { orderstatus: status, paymentIntent: { status: status } },
-      { new: true }
-    );
+    const updateorder = await order.findById(id);
+    updateorder.orderstatus = req.body.status;
+    await updateorder.save();
+    res.json(updateorder);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const updateOrderWarehouse = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongodbId(id);
+  try {
+    const updateorder = await order.findById(id);
+    updateorder.warehouse = req.body.warehouse;
+    await updateorder.save();
+    res.json(updateorder);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const updateOrder = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  validateMongodbId(_id);
+  // console.log(req.body.orderData.orderstatus);
+  try {
+    const updateorder = await order.findById(req?.body?.orderData?.id);
+    updateorder.orderstatus = req?.body?.orderData?.orderstatus;
+    updateorder.warehouse = req?.body?.orderData?.warehouse;
+    await updateorder.save();
     res.json(updateorder);
   } catch (error) {
     throw new Error(error);
@@ -537,6 +584,16 @@ const getYearlyTotalOrders = asyncHandler(async (req, res) => {
   res.json(data);
 });
 
+const getBanks = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  try {
+    const getallbank = await user.findById(_id);
+    res.json(getallbank.bank);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginControl,
@@ -565,4 +622,9 @@ module.exports = {
   UpdateProductQuantityCart,
   getMonthWiseOrderIncome,
   getYearlyTotalOrders,
+  UpdateBankAccount,
+  getBanks,
+  UpdateBankAmount,
+  updateOrder,
+  updateOrderWarehouse,
 };

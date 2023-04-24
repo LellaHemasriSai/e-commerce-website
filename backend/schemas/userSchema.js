@@ -36,6 +36,18 @@ var userSchema = new mongoose.Schema(
     },
     address: { type: String },
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "product" }],
+    bank: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
     refreshToken: {
       type: String,
     },

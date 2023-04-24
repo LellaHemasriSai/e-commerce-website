@@ -88,6 +88,27 @@ export const updateCartProduct = createAsyncThunk(
     }
   }
 );
+export const updateAmount = createAsyncThunk(
+  "auth/bank-amount",
+  async (bankamount, thunkAPI) => {
+    try {
+      return await authService.UpdateBankAmount(bankamount);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const updateOrder = createAsyncThunk(
+  "auth/update-order",
+  async (orderData, thunkAPI) => {
+    try {
+      console.log(orderData);
+      return await authService.UpdateOrder(orderData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const createAnOrder = createAsyncThunk(
   "auth/cart/create-order",
@@ -99,7 +120,17 @@ export const createAnOrder = createAsyncThunk(
     }
   }
 );
-
+export const addBankAccount = createAsyncThunk(
+  "auth/addbank",
+  async (userData, thunkAPI) => {
+    try {
+      console.log(userData);
+      return await authService.addBank(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const getOrders = createAsyncThunk(
   "auth/order/get",
   async (thunkAPI) => {
@@ -110,6 +141,13 @@ export const getOrders = createAsyncThunk(
     }
   }
 );
+export const getBanks = createAsyncThunk("auth/get-banks", async (thunkAPI) => {
+  try {
+    return await authService.getBanks();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 const getCustomer = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
@@ -316,6 +354,73 @@ export const authSlice = createSlice({
         state.getorderedProduct = action.payload;
       })
       .addCase(getOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(addBankAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addBankAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bankaccount = action.payload;
+
+        if (state.isSuccess === true) {
+          toast.info("Bank Account Added Successfully");
+        }
+      })
+      .addCase(addBankAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError === true) {
+          toast.error(action.error);
+        }
+      })
+      .addCase(getBanks.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBanks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bank = action.payload;
+      })
+      .addCase(getBanks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateAmount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAmount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedBankAmount = action.payload;
+      })
+      .addCase(updateAmount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedOrder = action.payload;
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

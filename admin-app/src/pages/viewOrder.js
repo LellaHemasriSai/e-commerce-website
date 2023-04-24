@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderByUserId } from "../features/auth/authSlice";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
 
 const columns = [
   {
@@ -31,46 +29,30 @@ const columns = [
     title: "Amount",
     dataIndex: "amount",
   },
-  {
-    title: "Date",
-    dataIndex: "date",
-  },
-
-  {
-    title: "Action",
-    dataIndex: "action",
-  },
+  // {
+  //   title: "Action",
+  //   dataIndex: "action",
+  // },
 ];
 
 const ViewOrder = () => {
   const location = useLocation();
-  const userId = location.pathname.split("/")[3];
+  const orderId = location.pathname.split("/")[3];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrderByUserId(userId));
-  }, [userId]);
-  const orderstate = useSelector((state) => state.auth.orders[0].products);
+    dispatch(getOrderByUserId(orderId));
+  }, [orderId]);
+  const orderstate = useSelector((state) => state?.auth?.singleorder);
   console.log(orderstate);
   const data1 = [];
-  for (let i = 0; i < orderstate.length; i++) {
+  for (let i = 0; i < orderstate?.orderItems?.length; i++) {
     data1.push({
       key: i + 1,
-      name: orderstate[i].product.title,
-      brand: orderstate[i].product.brand,
-      count: orderstate[i].count,
-      amount: orderstate[i].product.price,
-      color: orderstate[i].product.color,
-      date: orderstate[i].product.createdAt,
-      action: (
-        <>
-          <Link to="/" className=" fs-3 text-danger">
-            <BiEdit />
-          </Link>
-          <Link className="ms-3 fs-3 text-danger" to="/">
-            <AiFillDelete />
-          </Link>
-        </>
-      ),
+      name: orderstate?.orderItems[i]?.product.title,
+      brand: orderstate?.orderItems[i]?.product.brand,
+      count: orderstate?.orderItems[i]?.quantity,
+      amount: orderstate?.orderItems[i]?.price,
+      color: orderstate?.orderItems[i]?.color?.title,
     });
   }
   return (

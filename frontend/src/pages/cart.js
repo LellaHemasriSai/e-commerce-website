@@ -137,7 +137,7 @@ const Cart = () => {
                 <div className="d-flex flex-column align-items-end">
                   <h4>SubTotal: {amount}</h4>
                   <p>Taxes and shipping calculated at checkout</p>
-                  <Link to="/checkout" className="button">
+                  <Link to="/couponselection" className="button">
                     Checkout
                   </Link>
                 </div>

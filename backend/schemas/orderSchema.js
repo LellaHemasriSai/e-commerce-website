@@ -64,6 +64,10 @@ var orderSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        bankId: {
+          type: String,
+          required: true,
+        },
       },
     ],
     paidAt: {
@@ -82,6 +86,10 @@ var orderSchema = new mongoose.Schema(
     orderstatus: {
       type: String,
       default: "Ordered",
+    },
+    warehouse: {
+      type: String,
+      default: "WareHouse1",
     },
   },
   { timestamps: true }

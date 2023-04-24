@@ -22,7 +22,19 @@ const login = async (userData) => {
     return response.data;
   }
 };
-
+const addBank = async (bank) => {
+  console.log(bank);
+  const response = await axios.put(
+    `${base_url}user/add-bank`,
+    {
+      bank,
+    },
+    config
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
 const getUserWishlist = async () => {
   const response = await axios.get(`${base_url}user/wishlist`, config);
   // console.log(response.data);
@@ -82,7 +94,26 @@ const getUserOrders = async () => {
     return response.data;
   }
 };
-
+const getBanks = async () => {
+  const response = await axios.get(`${base_url}user/bank`, config);
+  return response.data;
+};
+const UpdateBankAmount = async (bankamount) => {
+  const response = await axios.put(
+    `${base_url}user/bank-amount`,
+    { bankamount },
+    config
+  );
+  return response.data;
+};
+const UpdateOrder = async (orderData) => {
+  const response = await axios.put(
+    `${base_url}user/update-order`,
+    { orderData },
+    config
+  );
+  return response.data;
+};
 export const authService = {
   register,
   login,
@@ -94,4 +125,8 @@ export const authService = {
   createOrder,
   getUserOrders,
   sellerregister,
+  addBank,
+  getBanks,
+  UpdateBankAmount,
+  UpdateOrder,
 };

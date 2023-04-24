@@ -16,11 +16,7 @@ const getOrder = async () => {
   return response.data;
 };
 const getOrderById = async (id) => {
-  const response = await axios.post(
-    `${base_url}user/getordersbyuser/${id}`,
-    "",
-    config
-  );
+  const response = await axios.get(`${base_url}user/getorder/${id}`, config);
   return response.data;
 };
 const getMonthlyOrders = async () => {
@@ -38,11 +34,39 @@ const getYearlyStats = async () => {
   return response.data;
 };
 
+const updateOrder = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/updateorderstatus/${data.id}`,
+    { status: data.status },
+    config
+  );
+  return response.data;
+};
+const updateOrderWarehouse = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/updateorderwarehouse/${data.id}`,
+    { warehouse: data.warehouse },
+    config
+  );
+  return response.data;
+};
+const UpdateBankAmount = async (bankamount) => {
+  const response = await axios.put(
+    `${base_url}user/bank-amount`,
+    { bankamount },
+    config
+  );
+  return response.data;
+};
+
 const authService = {
   getOrder,
   login,
   getOrderById,
   getMonthlyOrders,
   getYearlyStats,
+  updateOrder,
+  updateOrderWarehouse,
+  UpdateBankAmount,
 };
 export default authService;

@@ -5,7 +5,6 @@ import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import OurStore from "./pages/ourStore";
-import CompareProduct from "./pages/compareProduct";
 import Wishlist from "./pages/wishlist";
 import Logincs from "./pages/logincs";
 import Login from "./pages/login";
@@ -19,6 +18,9 @@ import { PrivateRoute } from "./routes/privateRoute";
 import { OpenRoute } from "./routes/openRoute";
 import Orders from "./pages/orders";
 import SellerSignUp from "./pages/sellerSignup";
+import AddBank from "./pages/addBank";
+import BankSelection from "./pages/bankSelection";
+import CouponSelection from "./pages/couponSelection";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
             <Route path="product/:id" element={<SingleProduct />} />
+            <Route path="bankselection" element={<BankSelection />} />
+            <Route path="couponselection" element={<CouponSelection />} />
             <Route
               path="cart"
               element={
@@ -55,7 +59,7 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="compare-product" element={<CompareProduct />} />
+            <Route path="add-bank" element={<AddBank />} />
             <Route
               path="wishlist"
               element={
@@ -90,6 +94,7 @@ function App() {
                 </OpenRoute>
               }
             />
+
             <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>

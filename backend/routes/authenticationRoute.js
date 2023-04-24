@@ -27,6 +27,11 @@ const {
   getMyOrders,
   getMonthWiseOrderIncome,
   getYearlyTotalOrders,
+  UpdateBankAccount,
+  getBanks,
+  UpdateBankAmount,
+  updateOrder,
+  updateOrderWarehouse,
 } = require("../controller/userControl");
 const { authentication, isAdmin } = require("../middlewares/authentication");
 const {
@@ -56,11 +61,26 @@ router.post("/cart/create-order", authentication, createOrder);
 router.get("/wishlist", authentication, getWishlist);
 router.get("/all-users", getAllUsers);
 router.get("/getmyorders", authentication, getMyOrders);
-// router.get("/getallorders", authentication, isAdmin, getAllOrders);
-// router.post("/getordersbyuser/:id", authentication, isAdmin, getOrderByUserId);
+router.get("/getallorders", authentication, isAdmin, getAllOrders);
+router.get("/getorder/:id", authentication, isAdmin, getOrderByUserId);
+router.put(
+  "/updateorderstatus/:id",
+  authentication,
+  isAdmin,
+  updateOrderStatus
+);
+router.put(
+  "/updateorderwarehouse/:id",
+  authentication,
+  isAdmin,
+  updateOrderWarehouse
+);
+router.put("/update-order", authentication, updateOrder);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
-
+router.put("/add-bank", authentication, UpdateBankAccount);
+router.put("/bank-amount", authentication, UpdateBankAmount);
+router.get("/bank", authentication, getBanks);
 router.get("/cart", authentication, getUserCart);
 router.get("/getmonthwiseorderincome", authentication, getMonthWiseOrderIncome);
 router.get("/getyearlytotalorders", authentication, getYearlyTotalOrders);
@@ -78,6 +98,7 @@ router.delete(
 );
 router.delete("/:id", deleteAUser);
 router.put("/edit-user", authentication, updateAUser);
+
 router.put("/save-address", authentication, saveAddress);
 
 module.exports = router;
