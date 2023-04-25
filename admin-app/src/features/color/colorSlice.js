@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// get all colors
 export const getColors = createAsyncThunk(
   "color/get-colors",
   async (thunkAPI) => {
@@ -19,7 +19,7 @@ export const getColors = createAsyncThunk(
     }
   }
 );
-
+// create a color
 export const createColor = createAsyncThunk(
   "color/create-color",
   async (colorData, thunkAPI) => {
@@ -30,7 +30,7 @@ export const createColor = createAsyncThunk(
     }
   }
 );
-
+// get a single color
 export const getAColor = createAsyncThunk(
   "color/get-color",
   async (id, thunkAPI) => {
@@ -41,7 +41,7 @@ export const getAColor = createAsyncThunk(
     }
   }
 );
-
+// update a color
 export const updateAColor = createAsyncThunk(
   "color/update-color",
   async (color, thunkAPI) => {
@@ -52,7 +52,7 @@ export const updateAColor = createAsyncThunk(
     }
   }
 );
-
+// delete a color
 export const deleteAColor = createAsyncThunk(
   "color/delete-color",
   async (id, thunkAPI) => {

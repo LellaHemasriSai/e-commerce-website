@@ -1,16 +1,17 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
 import { config } from "../../utils/axiosConfig";
-
+// get all brands
 const getBrands = async () => {
   const response = await axios.get(`${base_url}brand/`);
   return response.data;
 };
-
+// create a brand
 const createBrand = async (brand) => {
   const response = await axios.post(`${base_url}brand/`, brand, config);
   return response.data;
 };
+// update a brand
 const updateBrand = async (brand) => {
   const response = await axios.put(
     `${base_url}brand/${brand.id}`,
@@ -19,12 +20,12 @@ const updateBrand = async (brand) => {
   );
   return response.data;
 };
-
+// get a single brand
 const getBrand = async (id) => {
   const response = await axios.get(`${base_url}brand/${id}`, config);
   return response.data;
 };
-
+// delete a brand
 const deleteBrand = async (id) => {
   const response = await axios.delete(`${base_url}brand/${id}`, config);
   return response.data;

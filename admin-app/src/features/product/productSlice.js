@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// get all products
 export const getProducts = createAsyncThunk(
   "product/get-products",
   async (thunkAPI) => {
@@ -19,7 +19,7 @@ export const getProducts = createAsyncThunk(
     }
   }
 );
-
+// create a product
 export const createProducts = createAsyncThunk(
   "product/create-products",
   async (productData, thunkAPI) => {
@@ -31,6 +31,7 @@ export const createProducts = createAsyncThunk(
   }
 );
 
+// get a single product
 export const getProduct = createAsyncThunk(
   "product/get-product",
   async (id, thunkAPI) => {
@@ -41,7 +42,7 @@ export const getProduct = createAsyncThunk(
     }
   }
 );
-
+// update a product
 export const updateAProduct = createAsyncThunk(
   "product/update-product",
   async (product, thunkAPI) => {
@@ -52,7 +53,7 @@ export const updateAProduct = createAsyncThunk(
     }
   }
 );
-
+// delete a product
 export const deleteAProduct = createAsyncThunk(
   "product/delete-product",
   async (id, thunkAPI) => {
@@ -63,7 +64,7 @@ export const deleteAProduct = createAsyncThunk(
     }
   }
 );
-
+// update product quantity in cart
 export const updateQuantity = createAsyncThunk(
   "product/product-quantity",
   async (productquantity, thunkAPI) => {

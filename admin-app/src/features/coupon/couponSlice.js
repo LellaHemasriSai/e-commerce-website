@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// get all coupons
 export const getAllCoupon = createAsyncThunk(
   "coupon/get-coupons",
   async (thunkAPI) => {
@@ -19,7 +19,7 @@ export const getAllCoupon = createAsyncThunk(
     }
   }
 );
-
+// create a coupon
 export const createCoupons = createAsyncThunk(
   "coupon/create-coupon",
   async (Data, thunkAPI) => {
@@ -30,7 +30,7 @@ export const createCoupons = createAsyncThunk(
     }
   }
 );
-
+// get a single coupon
 export const getACoupon = createAsyncThunk(
   "coupon/get-coupon",
   async (id, thunkAPI) => {
@@ -41,7 +41,7 @@ export const getACoupon = createAsyncThunk(
     }
   }
 );
-
+// update a coupon
 export const updateACoupon = createAsyncThunk(
   "coupon/update-coupon",
   async (coupon, thunkAPI) => {
@@ -52,7 +52,7 @@ export const updateACoupon = createAsyncThunk(
     }
   }
 );
-
+// delete a coupon
 export const deleteACoupon = createAsyncThunk(
   "coupon/delete-coupon",
   async (id, thunkAPI) => {

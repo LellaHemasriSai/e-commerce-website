@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// get all customers
 export const getUsers = createAsyncThunk(
   "customer/get-customers",
   async (thunkAPI) => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/base_url";
-
+// get all customers
 const getUsers = async () => {
   const response = await axios.get(`${base_url}user/all-users`);
   return response.data;

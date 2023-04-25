@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// get all brands
 export const getBrands = createAsyncThunk(
   "brand/get-brands",
   async (thunkAPI) => {
@@ -19,7 +19,7 @@ export const getBrands = createAsyncThunk(
     }
   }
 );
-
+// get single brand
 export const getABrand = createAsyncThunk(
   "brand/get-brand",
   async (id, thunkAPI) => {
@@ -30,7 +30,7 @@ export const getABrand = createAsyncThunk(
     }
   }
 );
-
+// create a brand
 export const createBrands = createAsyncThunk(
   "brand/create-brand",
   async (brandData, thunkAPI) => {
@@ -41,7 +41,7 @@ export const createBrands = createAsyncThunk(
     }
   }
 );
-
+// update a brand
 export const updateABrand = createAsyncThunk(
   "brand/update-brand",
   async (brand, thunkAPI) => {
@@ -52,7 +52,7 @@ export const updateABrand = createAsyncThunk(
     }
   }
 );
-
+// delete a brand
 export const deleteABrand = createAsyncThunk(
   "brand/delete-brand",
   async (id, thunkAPI) => {

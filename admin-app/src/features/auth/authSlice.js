@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import authService from "./authService";
 import { toast } from "react-toastify";
 
+// getting data from local storage
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
@@ -13,7 +14,7 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+// admin login
 export const login = createAsyncThunk(
   "auth/admin-login",
   async (user, thunkAPI) => {
@@ -24,6 +25,7 @@ export const login = createAsyncThunk(
     }
   }
 );
+// get monthly data
 export const getMonthlyData = createAsyncThunk(
   "order/monthlydata",
   async (thunkAPI) => {
@@ -34,6 +36,8 @@ export const getMonthlyData = createAsyncThunk(
     }
   }
 );
+
+// get yearly data
 export const getYearlyData = createAsyncThunk(
   "order/yearlydata",
   async (thunkAPI) => {
@@ -45,6 +49,7 @@ export const getYearlyData = createAsyncThunk(
   }
 );
 
+//get all orders
 export const getOrder = createAsyncThunk(
   "order/get-orders",
   async (thunkAPI) => {
@@ -56,6 +61,7 @@ export const getOrder = createAsyncThunk(
   }
 );
 
+//get a single order
 export const getOrderByUserId = createAsyncThunk(
   "order/get-order",
   async (id, thunkAPI) => {
@@ -66,6 +72,8 @@ export const getOrderByUserId = createAsyncThunk(
     }
   }
 );
+
+//update an order
 export const updateAOrder = createAsyncThunk(
   "order/update-order",
   async (data, thunkAPI) => {
@@ -76,6 +84,8 @@ export const updateAOrder = createAsyncThunk(
     }
   }
 );
+
+//update warehouse of order
 export const updateAOrderWarehouse = createAsyncThunk(
   "order/update-order-warehouse",
   async (data, thunkAPI) => {
@@ -87,6 +97,7 @@ export const updateAOrderWarehouse = createAsyncThunk(
   }
 );
 
+//update balance in bank account
 export const updateAmount = createAsyncThunk(
   "auth/bank-amount",
   async (bankamount, thunkAPI) => {
@@ -97,17 +108,20 @@ export const updateAmount = createAsyncThunk(
     }
   }
 );
+
+//add bank account
 export const addBankAccount = createAsyncThunk(
   "auth/addbank",
   async (userData, thunkAPI) => {
     try {
-      console.log(userData);
       return await authService.addBank(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
+
+// get all banks
 export const getBanks = createAsyncThunk("auth/get-banks", async (thunkAPI) => {
   try {
     return await authService.getBanks();
@@ -115,7 +129,7 @@ export const getBanks = createAsyncThunk("auth/get-banks", async (thunkAPI) => {
     return thunkAPI.rejectWithValue(error);
   }
 });
-
+//get a single bank
 export const getABank = createAsyncThunk(
   "auth/get-bank",
   async (id, thunkAPI) => {
@@ -127,6 +141,7 @@ export const getABank = createAsyncThunk(
   }
 );
 
+// update a bank account
 export const updateABank = createAsyncThunk(
   "auth/update-bank",
   async (bank, thunkAPI) => {
@@ -138,7 +153,7 @@ export const updateABank = createAsyncThunk(
     }
   }
 );
-
+// delete a bank account
 export const deleteABank = createAsyncThunk(
   "auth/delete-bank",
   async (id, thunkAPI) => {
