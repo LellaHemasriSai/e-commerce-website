@@ -56,7 +56,7 @@ const Dashboard = () => {
   for (let index = 0; index < orderstate?.length; index++) {
     if (
       orderstate[index]?.orderstatus === "Return" &&
-      orderstate[index]?.warehouse === "WareHouse1"
+      orderstate[index]?.warehouse === "Warehouse1"
     ) {
       c = c - 1;
       a = a - orderstate[index]?.totalPriceAfterDiscount;
@@ -66,7 +66,7 @@ const Dashboard = () => {
   for (let index = 0; index < orderstate?.length; index++) {
     if (
       orderstate[index]?.orderstatus === "Return" &&
-      orderstate[index]?.warehouse === "WareHouse1"
+      orderstate[index]?.warehouse === "Warehouse1"
     ) {
       for (
         let index2 = 0;
@@ -77,21 +77,22 @@ const Dashboard = () => {
           orderstate[index]?.orderItems[0]?.bankId ===
           orderstate[index]?.user?.bank[index2]._id
         ) {
-          amt = orderstate[index]?.totalPriceAfterDiscount;
-          amount1 = amt + orderstate[index]?.user?.bank[index2].amount;
-          title1 = orderstate[index]?.user?.bank[index2]._id;
-          userId1 = orderstate[index].user._id;
+          amt = orderstate[index]?.totalPriceAfterDiscount + 100;
+          amount1 = amt + orderstate[index]?.user?.bank[index2]?.amount;
+          title1 = orderstate[index]?.user?.bank[index2]?._id;
+          userId1 = orderstate[index]?.user?._id;
         }
       }
     }
   }
+  // console.log(bankamount);
   useEffect(() => {
     dispatch(getMonthlyData());
     dispatch(getYearlyData());
   }, []);
   useEffect(() => {
     setBankamount({
-      amount: amount1,
+      amount: parseInt(amount1),
       title: title1,
       userId: userId1,
     });

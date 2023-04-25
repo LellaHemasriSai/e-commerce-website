@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Container from "../components/container";
-import { services } from "../utils/data";
 const Home = () => {
   return (
     <>
@@ -18,7 +17,9 @@ const Home = () => {
                 <h4 className="text-black">SUPERCHARGED FOR PROS</h4>
                 <h5>ipad S13+ Pro.</h5>
                 <p>From 10,000</p>
-                <Link className="button">BUY NOW</Link>
+                <Link to="/product" className="button">
+                  BUY NOW
+                </Link>
               </div>
             </div>
           </div>
@@ -33,27 +34,10 @@ const Home = () => {
                 <h4 className="text-black">Offer of the week</h4>
                 <h5 className="text-black">Min. 65% off</h5>
                 <p className="text-black">+ Extra 5% off</p>
-                <Link className="button">BUY NOW</Link>
+                <Link to="/product" className="button">
+                  BUY NOW
+                </Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-      <Container class1="home-wrapper-2 py-5">
-        <div className="row">
-          <div className="col-12">
-            <div className="services d-flex align-items-center justify-content-between ">
-              {services?.map((i, j) => {
-                return (
-                  <div className="d-flex align-items-center gap-15" key={j}>
-                    <img src={i.image} alt="services" />
-                    <div>
-                      <h6>{i.title}</h6>
-                      <p className="mb-0">{i.tagline}</p>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>

@@ -24,8 +24,16 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   let index1 = location.state.account;
-  const [bankamount, setBankamount] = useState(null);
+  const discount = location.state.discount;
+  // console.log(discount);
+  const [bankamount, setBankamount] = useState({
+    amount: "",
+    title: "",
+    userId: "",
+  });
+  // console.log(bankamount);
   const [tamount, setAmount] = useState(null);
+  const [tamountafterdiscount, setAmountAfterDiscount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
   const [paymentInfo, setPaymentInfo] = useState({
     razorpayPaymentId: "",
@@ -35,8 +43,11 @@ const Checkout = () => {
   const userstate = useSelector((state) => state.auth);
   const cartstate = useSelector((state) => state.auth.cartProducts);
   const bankstate = useSelector((state) => state?.auth?.bank);
+  const couponstate = useSelector((state) => state.coupon?.coupons);
+  console.log(couponstate);
   let amt1 = bankstate[index1]?.amount;
-  amt1 = amt1 - tamount;
+  amt1 = amt1 - parseInt(tamountafterdiscount + 100);
+  let disc = tamount - tamountafterdiscount;
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartstate?.length; index++) {
@@ -44,6 +55,9 @@ const Checkout = () => {
       setAmount(sum);
     }
   }, [cartstate]);
+  useEffect(() => {
+    setAmountAfterDiscount(tamount - (tamount * discount) / 100);
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -106,7 +120,7 @@ const Checkout = () => {
     }
     const result = await axios.post(
       "http://localhost:5000/api/user/order/checkout",
-      { amount: tamount + 100 },
+      { amount: tamountafterdiscount + 100 },
       config
     );
     if (!result) {
@@ -139,19 +153,22 @@ const Checkout = () => {
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
         });
+        let title1 = bankstate[index]?._id;
+        let userId1 = userstate?.user?._id;
         if (amt >= 0) {
           dispatch(
             createAnOrder({
               totalPrice: tamount,
-              totalPriceAfterDiscount: tamount,
+              totalPriceAfterDiscount: tamountafterdiscount,
               orderItems: productstate,
               paymentInfo: paymentInfo,
               shippingInfo: shippingInfo,
             })
           );
           setBankamount({
-            title: bankstate[index]?.title,
             amount: amt,
+            title: title1,
+            userId: userId1,
           });
           dispatch(updateAmount(bankamount));
         }
@@ -395,8 +412,14 @@ const Checkout = () => {
             </div>
             <div className="border-bottom py-4">
               <div className="d-flex justify-content-between align-items-center">
-                <p className="total">Subtotal</p>
+                <p className="total">Before Discount</p>
                 <p className="total-price">{tamount ? tamount : "0"}</p>
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="total">After Discount</p>
+                <p className="total-price">
+                  {tamountafterdiscount ? tamountafterdiscount : "0"}
+                </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="mb-0 total">Shipping</p>
@@ -405,7 +428,9 @@ const Checkout = () => {
             </div>
             <div className="d-flex justify-content-between align-items-center py-4">
               <h4 className="total">Total</h4>
-              <h5 className="total-price">{tamount ? tamount + 100 : "0"}</h5>
+              <h5 className="total-price">
+                {tamountafterdiscount ? tamountafterdiscount + 100 : "0"}
+              </h5>
             </div>
           </div>
         </div>

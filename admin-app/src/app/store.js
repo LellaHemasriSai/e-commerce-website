@@ -3,6 +3,7 @@ import authReducer from "../features/auth/authSlice";
 import customerReducer from "../features/customers/customerSlice";
 import productReducer from "../features/product/productSlice";
 import brandReducer from "../features/brand/brandSlice";
+import warehouseReducer from "../features/warehouse/warehouseSlice";
 import productCategoryReducer from "../features/productCategory/productCategorySlice";
 import colorReducer from "../features/color/colorSlice";
 import uploadReducer from "../features/upload/uploadSlice";
@@ -14,6 +15,7 @@ export const Store = configureStore({
     customer: customerReducer,
     product: productReducer,
     brand: brandReducer,
+    warehouse: warehouseReducer,
     productCategory: productCategoryReducer,
     color: colorReducer,
     upload: uploadReducer,

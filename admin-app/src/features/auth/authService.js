@@ -58,7 +58,43 @@ const UpdateBankAmount = async (bankamount) => {
   );
   return response.data;
 };
+const addBank = async (bank) => {
+  const response = await axios.put(
+    `${base_url}user/add-bank`,
+    {
+      bank,
+    },
+    config
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+const getBanks = async () => {
+  const response = await axios.get(`${base_url}user/bank`, config);
+  return response.data;
+};
 
+const updateBank = async (bank) => {
+  const response = await axios.put(
+    `${base_url}user/update-bank/${bank.id}`,
+    { title: bank.bankData.title, amount: bank.bankData.amount },
+    config
+  );
+  return response.data;
+};
+const getBank = async (id) => {
+  const response = await axios.get(`${base_url}user/bank/${id}`, config);
+  return response.data;
+};
+
+const deleteBank = async (id) => {
+  const response = await axios.delete(
+    `${base_url}user/delete-bank/${id}`,
+    config
+  );
+  return response.data;
+};
 const authService = {
   getOrder,
   login,
@@ -68,5 +104,10 @@ const authService = {
   updateOrder,
   updateOrderWarehouse,
   UpdateBankAmount,
+  addBank,
+  getBanks,
+  getBank,
+  updateBank,
+  deleteBank,
 };
 export default authService;

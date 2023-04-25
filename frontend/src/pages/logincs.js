@@ -18,7 +18,7 @@ const Logincs = () => {
                   Customer
                 </Link>
                 <Link to="/seller-register" className="button signup">
-                  Seller
+                  Seller/Advertiser
                 </Link>
               </div>
             </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./header";
-import Footer from "./footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const layout = () => {
@@ -9,7 +8,6 @@ const layout = () => {
     <>
       <Header />
       <Outlet />
-      <Footer />
       <ToastContainer
         position="top-right"
         autoClose={5000}

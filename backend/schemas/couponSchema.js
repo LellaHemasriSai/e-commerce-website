@@ -16,6 +16,10 @@ var couponSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  advertiserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 //Export the model

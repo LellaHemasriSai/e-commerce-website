@@ -23,7 +23,7 @@ const login = async (userData) => {
   }
 };
 const addBank = async (bank) => {
-  console.log(bank);
+  // console.log(bank);
   const response = await axios.put(
     `${base_url}user/add-bank`,
     {

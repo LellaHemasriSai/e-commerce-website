@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineBank } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const Header = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [amount, setAmount] = useState(null);
-  const [paginate, setPaginate] = useState(null);
+  // const [paginate, setPaginate] = useState(null);
   const productstate = useSelector((state) => state.product.product);
   const cartstate = useSelector((state) => state.auth.cartProducts);
   const authstate = useSelector((state) => state.auth);
@@ -32,21 +31,6 @@ const Header = () => {
   }, [productstate]);
   return (
     <>
-      <header className="header-top py-2">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-6">
-              <p className="text-white mb-0">Free shipping over 300 Rupees</p>
-            </div>
-            <div className="col-6">
-              <p className="text-end text-white mb-0">
-                Telephone: <a href="tel:+91 1234567890">+91 1234567890</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <header className="header-middle py-2">
         <div className="container-xxl">
           <div className="row align-items-center">
@@ -57,12 +41,10 @@ const Header = () => {
               <div className="input-group">
                 <Typeahead
                   id="pagination-example"
-                  onPaginate={() => console.log("Results Paginated")}
                   onChange={(selected) => {
                     navigate(`/product/${selected[0].prod}`);
                   }}
                   options={productOpt}
-                  paginate={paginate}
                   labelKey={"name"}
                   minLength={2}
                   placeholder="Search for products.."
@@ -144,47 +126,11 @@ const Header = () => {
           <div className="row">
             <div className="col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary dropdown-toggle gap-15"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <img src="images/menu.svg" alt="" />
-                      <span className="me-5d-inline-block">Categories</span>
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Another action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Something else here
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
                 <div className="menu-links">
                   <div className="d-flex align-tems-center gap-15">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/product">Our Store</NavLink>
                     <NavLink to="/my-orders">My Orders</NavLink>
-                    <NavLink to="/">Blogs</NavLink>
-                    <NavLink to="/conatct">Contact</NavLink>
                   </div>
                 </div>
               </div>

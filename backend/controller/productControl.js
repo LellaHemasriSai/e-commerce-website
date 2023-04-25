@@ -5,11 +5,28 @@ const user = require("../schemas/userSchema");
 const { validateMongodbId } = require("../utils/validateMongodbId");
 
 const createProduct = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  validateMongodbId(_id);
   try {
     if (req.body.title) {
       req.body.name = slugify(req.body.title);
     }
-    const newProduct = await product.create(req.body);
+    let newProduct = await new product({
+      title: req.body.title,
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category,
+      brand: req.body.brand,
+      quantity: req.body.quantity,
+      sellerId: _id,
+      images: req.body.images,
+      color: req.body.color,
+      tags: req.body.tags,
+      ratings: req.body.ratings,
+      sold: req.body.sold,
+      totalrating: req.body.totalrating,
+    }).save();
     res.json(newProduct);
   } catch (error) {
     throw new Error(error);
@@ -89,7 +106,7 @@ const UpdateProductQuantity = asyncHandler(async (req, res) => {
   quantity1 = req.body.productquantity?.quantity;
   sold1 = req.body.productquantity?.sold;
   pId = req.body.productquantity?.prodId;
-  // console.log(req.body.productquantity);
+  console.log(req.body.productquantity);
   validateMongodbId(_id);
   try {
     const updquantity = await product.findById(pId);

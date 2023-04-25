@@ -45,7 +45,7 @@ const Orders = () => {
     dispatch(getOrder());
   }, []);
   const orderstate = useSelector((state) => state.auth.orders);
-  // console.log(orderstate);
+  const warehousestate = useSelector((state) => state.warehouse.warehouses);
   const data1 = [];
   for (let i = 0; i < orderstate?.length; i++) {
     data1.push({
@@ -54,7 +54,7 @@ const Orders = () => {
       product: (
         <Link to={`/admin/order/${orderstate[i]?._id}`}>View Orders</Link>
       ),
-      amount: orderstate[i]?.totalPrice,
+      amount: orderstate[i]?.totalPriceAfterDiscount,
       date: new Date(orderstate[i]?.createdAt).toLocaleString(),
       status: (
         <>
@@ -89,11 +89,19 @@ const Orders = () => {
             className="form-control form-select"
             id=""
           >
-            <option value="WareHouse1">WareHouse1</option>
+            {warehousestate &&
+              warehousestate?.map((item1, index1) => {
+                return (
+                  <option key={index1} value={item1?.title}>
+                    {item1?.title}
+                  </option>
+                );
+              })}
+            {/* <option value="WareHouse1">WareHouse1</option>
             <option value="WareHouse2">WareHouse2</option>
             <option value="WareHouse3">WareHouse3</option>
             <option value="WareHouse4">WareHouse4</option>
-            <option value="Delivered">Delivered</option>
+            <option value="Delivered">Delivered</option> */}
           </select>
         </>
       ),

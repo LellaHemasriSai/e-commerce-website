@@ -3,8 +3,15 @@ const asyncHandler = require("express-async-handler");
 const { validateMongodbId } = require("../utils/validateMongodbId");
 
 const createCoupon = asyncHandler(async (req, res) => {
+  const { _id } = req.user1;
+  validateMongodbId(_id);
   try {
-    const newCoupon = await coupon.create(req.body);
+    let newCoupon = await new coupon({
+      name: req.body.name,
+      expiry: req.body.expiry,
+      discount: req.body.discount,
+      advertiserId: _id,
+    }).save();
     res.json(newCoupon);
   } catch (error) {
     throw new Error(error);

@@ -90,7 +90,7 @@ const Orders = () => {
                         className="d-flex gap-15 flex-wrap justify-content-between"
                       >
                         <button
-                          className="button border-0"
+                          className="button border-0 mt-0 mb-3 align-items-center justify-content-center"
                           type="submit"
                           onClick={() =>
                             setorderData({

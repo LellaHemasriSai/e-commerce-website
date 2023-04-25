@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Meta from "../components/Meta";
 import BreadCrumb from "../components/Store";
 import Container from "../components/container";
@@ -9,7 +9,9 @@ import { useEffect } from "react";
 
 const BankSelection = () => {
   const bankstate = useSelector((state) => state?.auth?.bank);
-  console.log(bankstate);
+  const location = useLocation();
+  const discount = location.state.discount;
+  // console.log(discount);
   const dispatch = useDispatch();
   useEffect(() => {
     getAllBanks();
@@ -39,7 +41,10 @@ const BankSelection = () => {
                         <Link
                           to="/checkout"
                           className="button"
-                          state={{ account: parseInt(index) }}
+                          state={{
+                            account: parseInt(index),
+                            discount: discount,
+                          }}
                         >
                           Use this Account
                         </Link>

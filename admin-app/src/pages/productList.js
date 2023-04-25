@@ -88,10 +88,11 @@ const ProductList = () => {
       ) {
         if (
           orderstate[index]?.orderstatus === "Delivered" &&
-          orderstate[index]?.warehouse === "Delivered" &&
+          orderstate[index]?.warehouse === "Warehouse5" &&
           orderstate[index]?.orderItems[index2]?.product ===
             productstate[index3]?._id
         ) {
+          console.log("hi");
           let q = productstate[index3]?.quantity;
           quantity1 = q - orderstate[index]?.orderItems[index2]?.quantity;
           prodId1 = productstate[index3]._id;
@@ -110,7 +111,7 @@ const ProductList = () => {
       prodId: prodId1,
     });
     if (productquantity.quantity !== "") {
-      // console.log(productquantity.quantity);
+      console.log(productquantity.quantity);
       dispatch(updateQuantity(productquantity));
     }
   }, []);

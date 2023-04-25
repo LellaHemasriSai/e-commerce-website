@@ -1,5 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import authService from "./authService";
+import { toast } from "react-toastify";
+
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
@@ -95,6 +97,60 @@ export const updateAmount = createAsyncThunk(
     }
   }
 );
+export const addBankAccount = createAsyncThunk(
+  "auth/addbank",
+  async (userData, thunkAPI) => {
+    try {
+      console.log(userData);
+      return await authService.addBank(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getBanks = createAsyncThunk("auth/get-banks", async (thunkAPI) => {
+  try {
+    return await authService.getBanks();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const getABank = createAsyncThunk(
+  "auth/get-bank",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.getBank(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateABank = createAsyncThunk(
+  "auth/update-bank",
+  async (bank, thunkAPI) => {
+    // console.log(bank);
+    try {
+      return await authService.updateBank(bank);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteABank = createAsyncThunk(
+  "auth/delete-bank",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteBank(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetState = createAction("Reset_all");
 
 export const authSlice = createSlice({
   name: "auth",
@@ -221,7 +277,90 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-      });
+      })
+      .addCase(addBankAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addBankAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bankaccount = action.payload;
+
+        if (state.isSuccess === true) {
+          toast.info("Bank Account Added Successfully");
+        }
+      })
+      .addCase(addBankAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError === true) {
+          toast.error(action.error);
+        }
+      })
+      .addCase(getBanks.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBanks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bank = action.payload;
+      })
+      .addCase(getBanks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getABank.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getABank.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.bankName = action.payload.title;
+      })
+      .addCase(getABank.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateABank.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateABank.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedBank = action.payload;
+      })
+      .addCase(updateABank.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(deleteABank.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteABank.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedBank = action.payload;
+      })
+      .addCase(deleteABank.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(resetState, () => initialState);
   },
 });
 

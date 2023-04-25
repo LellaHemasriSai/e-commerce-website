@@ -68,7 +68,7 @@ export const updateQuantity = createAsyncThunk(
   "product/product-quantity",
   async (productquantity, thunkAPI) => {
     try {
-      // console.log(productquantity);
+      console.log(productquantity);
       return await productService.UpdateProductQuantity(productquantity);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

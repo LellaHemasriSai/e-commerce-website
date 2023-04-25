@@ -124,7 +124,7 @@ export const addBankAccount = createAsyncThunk(
   "auth/addbank",
   async (userData, thunkAPI) => {
     try {
-      console.log(userData);
+      // console.log(userData);
       return await authService.addBank(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

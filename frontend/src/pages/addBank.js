@@ -5,7 +5,7 @@ import Container from "../components/container";
 import CustomInput from "../components/customInput";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBankAccount } from "../features/user/userSlice";
 
@@ -24,7 +24,7 @@ const AddBank = () => {
     },
     validationSchema: bankSchema,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       dispatch(addBankAccount(values));
       setTimeout(() => {
         navigate("/");

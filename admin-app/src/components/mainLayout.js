@@ -100,6 +100,26 @@ const MainLayout = () => {
                   icon: <AiOutlineBgColors className="fs-4" />,
                   label: "Colors List",
                 },
+                {
+                  key: "warehouse",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Warehouse",
+                },
+                {
+                  key: "warehouse-list",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Warehouse List",
+                },
+                {
+                  key: "bank",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Add Bank",
+                },
+                {
+                  key: "bank-list",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Bank List",
+                },
               ],
             },
             {

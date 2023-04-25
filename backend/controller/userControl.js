@@ -334,17 +334,15 @@ const UpdateProductQuantityCart = asyncHandler(async (req, res) => {
 });
 const UpdateBankAmount = asyncHandler(async (req, res) => {
   const { _id } = req.user1;
-  amount = req.body.bankamount?.amount;
+  amount1 = req.body.bankamount?.amount;
   tid = req.body.bankamount?.title;
   uId = req.body.bankamount?.userId;
-  // console.log(req.body.bankamount);
   validateMongodbId(_id);
   try {
     const updamount = await user.findById(uId);
     for (let index = 0; index < updamount.bank?.length; index++) {
-      // console.log(updamount.bank[index]._id.toString());
-      if (updamount.bank[index]._id === tid) {
-        updamount.bank[index].amount = amount;
+      if (updamount.bank[index]?._id.toString() === tid) {
+        updamount.bank[index].amount = amount1;
       }
     }
     updamount.save();
@@ -594,6 +592,68 @@ const getBanks = asyncHandler(async (req, res) => {
   }
 });
 
+const updateBank = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { _id } = req.user1;
+  // console.log(req.body);
+  validateMongodbId(id);
+  try {
+    let updbank = await user.findById(_id);
+    for (let index = 0; index < updbank.bank?.length; index++) {
+      if (updbank.bank[index]?._id.toString() === id) {
+        updbank.bank[index] = req.body;
+      }
+    }
+
+    updbank.save();
+    res.json(updbank);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const deleteBank = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { _id } = req.user1;
+  validateMongodbId(id);
+  try {
+    const user2 = await user.findById(_id);
+    const bank1 = user2.bank;
+    let deletedbank = [];
+    for (let index = 0; index < bank1.length; index++) {
+      if (bank1[index]?._id.toString() !== id) {
+        deletedbank.push(bank1[index]);
+      }
+    }
+    let updbank = await user.findById(_id);
+    updbank.bank = deletedbank;
+    updbank.save();
+    res.json(updbank);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getBank = asyncHandler(async (req, res) => {
+  // console.log(req.params);
+  const { id } = req.params;
+  const { _id } = req.user1;
+  validateMongodbId(id);
+  try {
+    const user2 = await user.findById(_id);
+    const bank1 = user2.bank;
+    let getbank;
+    for (let index = 0; index < bank1.length; index++) {
+      if (bank1[index]?._id.toString() === id) {
+        getbank = bank1[index];
+      }
+    }
+    res.json(getbank);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginControl,
@@ -627,4 +687,7 @@ module.exports = {
   UpdateBankAmount,
   updateOrder,
   updateOrderWarehouse,
+  getBank,
+  updateBank,
+  deleteBank,
 };

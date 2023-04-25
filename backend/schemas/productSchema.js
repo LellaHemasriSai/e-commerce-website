@@ -34,6 +34,11 @@ var productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
+    sellerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     images: [{ public_id: String, url: String }],
     color: [{ type: mongoose.Schema.Types.ObjectId, ref: "color" }],
     tags: String,

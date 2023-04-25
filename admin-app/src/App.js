@@ -18,6 +18,10 @@ import AddProduct from "./pages/addProduct";
 import AddCoupon from "./pages/addCoupon";
 import CouponList from "./pages/couponList";
 import ViewOrder from "./pages/viewOrder";
+import WarehouseList from "./pages/warehouseList";
+import AddWarehouse from "./pages/addWarehouse";
+import AddBank from "./pages/addBank";
+import BankList from "./pages/bankList";
 
 function App() {
   return (
@@ -40,12 +44,18 @@ function App() {
           <Route path="brand-list" element={<BrandList />} />
           <Route path="brand" element={<AddBrand />} />
           <Route path="brand/:id" element={<AddBrand />} />
+          <Route path="warehouse-list" element={<WarehouseList />} />
+          <Route path="warehouse" element={<AddWarehouse />} />
+          <Route path="warehouse/:id" element={<AddWarehouse />} />
           <Route path="product-list" element={<ProductList />} />
           <Route path="product" element={<AddProduct />} />
           <Route path="product/:id" element={<AddProduct />} />
           <Route path="coupon" element={<AddCoupon />} />
           <Route path="coupon/:id" element={<AddCoupon />} />
           <Route path="coupon-list" element={<CouponList />} />
+          <Route path="bank" element={<AddBank />} />
+          <Route path="bank/:id" element={<AddBank />} />
+          <Route path="bank-list" element={<BankList />} />
         </Route>
       </Routes>
     </BrowserRouter>

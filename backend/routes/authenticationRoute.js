@@ -32,6 +32,9 @@ const {
   UpdateBankAmount,
   updateOrder,
   updateOrderWarehouse,
+  updateBank,
+  deleteBank,
+  getBank,
 } = require("../controller/userControl");
 const { authentication, isAdmin } = require("../middlewares/authentication");
 const {
@@ -80,6 +83,9 @@ router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
 router.put("/add-bank", authentication, UpdateBankAccount);
 router.put("/bank-amount", authentication, UpdateBankAmount);
+router.put("/update-bank/:id", authentication, isAdmin, updateBank);
+router.delete("/delete-bank/:id", authentication, isAdmin, deleteBank);
+router.get("/bank/:id", authentication, getBank);
 router.get("/bank", authentication, getBanks);
 router.get("/cart", authentication, getUserCart);
 router.get("/getmonthwiseorderincome", authentication, getMonthWiseOrderIncome);
