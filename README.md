@@ -2,9 +2,15 @@
 
 # Introduction
 
-This is a MERN stack based ecommerce application that has the following features.
+This is a MERN stack based ecommerce application where there are three types of users - customers, sellers and advertisers who can perform their respective functionalities.
 
-# Features
+
+
+# Video Demonstartion
+
+https://drive.google.com/file/d/1yir1N-bsp4n0NJ6Wn5FEMYzkndb4uWCY/view?usp=sharing
+
+# Functionalities / Features
 
 1. Registration and Login of Customer, Seller and advertiser.
 2. Advertisements are shown in the home page
@@ -43,5 +49,4 @@ This is a MERN stack based ecommerce application that has the following features
 7. npm start
 8. cd frontend
 9. npm start
-
 
